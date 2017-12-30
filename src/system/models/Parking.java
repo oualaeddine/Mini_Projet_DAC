@@ -74,7 +74,6 @@ public class Parking {
                 if (cells[i][j].getType()==CellType.PARK && cells[i][j].getState()!=CellState.OCCUPEE);
                     return cells[i][j];
             }
-
         }
         return null;
     }
