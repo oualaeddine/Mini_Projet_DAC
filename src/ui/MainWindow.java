@@ -416,7 +416,7 @@ public class MainWindow extends JFrame {
                             previousY = y;
                             notFirst = true;
                             try {
-                                this.wait(1000);
+                                this.wait(400);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

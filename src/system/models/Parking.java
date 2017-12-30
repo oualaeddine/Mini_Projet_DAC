@@ -14,7 +14,7 @@ public class Parking {
     private final ParkingCell[][] cells;
     private String[] vehicules = {
             "/images/buses.png",
-            "/images/by1.png.png",
+            "/images/by1.png",
             "/images/by2.png",
             "/images/by3.png",
             "/images/by4.png",
@@ -107,6 +107,7 @@ public class Parking {
 
     public String getRandomVehicle() {
         int i = new Random().nextInt(vehicules.length);
+        System.out.println(vehicules[i]);
         return vehicules[i];
     }
 }
