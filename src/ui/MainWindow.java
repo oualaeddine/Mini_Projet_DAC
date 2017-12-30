@@ -415,11 +415,11 @@ public class MainWindow extends JFrame {
                             previousX = x;
                             previousY = y;
                             notFirst = true;
-                         /*   try {
-                                this.wait(20);
+                            try {
+                                this.wait(500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
-                            }*/
+                            }
                         }
                     }
                 }
