@@ -2,7 +2,7 @@ package system.models;
 
 public class Position {
 
-    private int x,y;
+    private int x, y;
 
     public Position(int x, int y) {
         this.x = x;
@@ -27,5 +27,13 @@ public class Position {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

@@ -2,11 +2,12 @@ package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
 import system.models.Parking;
+import system.models.ParkingCell;
+import system.models.Position;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
-import java.util.Random;
 
 import static system.enums.CellType.PARK;
 import static system.enums.CellType.ROAD;
@@ -28,6 +29,79 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         initComponents();
         customizeComponents();
+    }
+
+    private static final int parkingSize = 22;//divisor of 550
+
+    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
+
+
+    }//GEN-LAST:event_btnSettingsActionPerformed
+
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        startTest();
+    }//GEN-LAST:event_btnStartActionPerformed
+
+    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
+        stopTest();
+    }//GEN-LAST:event_btnStopActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        try {
+            // select Look and Feel
+            UIManager.setLookAndFeel(new DarculaLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainWindow().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSettings;
+    private javax.swing.JButton btnStart;
+    private javax.swing.JButton btnStop;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel parkingPanel;
+    private javax.swing.JPanel parking_box;
+    // End of variables declaration//GEN-END:variables
+    private Parking parking;
+
+
+    public static int getParkingSize() {
+        return parkingSize;
     }
 
     /**
@@ -60,8 +134,6 @@ public class MainWindow extends JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        test = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -225,25 +297,6 @@ public class MainWindow extends JFrame {
                                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
-        test.setBackground(new java.awt.Color(0, 255, 51));
-
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/automobile.png"))); // NOI18N
-        jLabel15.setIconTextGap(1);
-        jLabel15.setMinimumSize(new java.awt.Dimension(50, 50));
-        jLabel15.setPreferredSize(new java.awt.Dimension(50, 50));
-
-        javax.swing.GroupLayout testLayout = new javax.swing.GroupLayout(test);
-        test.setLayout(testLayout);
-        testLayout.setHorizontalGroup(
-                testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        testLayout.setVerticalGroup(
-                testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -251,23 +304,15 @@ public class MainWindow extends JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(parking_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap())
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(test, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(63, 63, 63))))
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(parking_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(test, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -285,84 +330,9 @@ public class MainWindow extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
-
-
-    }//GEN-LAST:event_btnSettingsActionPerformed
-
-    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        startTest();
-    }//GEN-LAST:event_btnStartActionPerformed
-
-    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
-        stopTest();
-    }//GEN-LAST:event_btnStopActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-        try {
-            // select Look and Feel
-            UIManager.setLookAndFeel(new DarculaLaf());
-        } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSettings;
-    private javax.swing.JButton btnStart;
-    private javax.swing.JButton btnStop;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel parkingPanel;
-    private javax.swing.JPanel parking_box;
-    private javax.swing.JPanel test;
-    // End of variables declaration//GEN-END:variables
-
-
-    private static final int parkingSize = 25;//divisor of 550
-
-
-    public static int getParkingSize() {
-        return parkingSize;
-    }
-
-    private Parking parking = new Parking(parkingSize);
-
     private void customizeComponents() {
+        parking = new Parking(parkingSize);
+
         for (int i = 1; i <= parkingSize; i++) {
             if (isParkRow(i))
                 addParkRow(i);
@@ -407,7 +377,6 @@ public class MainWindow extends JFrame {
         parking.addCellToParking(pan, row, column, ROAD);
     }
 
-
     private void DisplayImage(JPanel jp) {
         JLabel jl = new JLabel();
         URL rr = getClass().getClassLoader().getResource("images/automobile.png");
@@ -433,19 +402,24 @@ public class MainWindow extends JFrame {
                 boolean notFirst = false;
                 while (true) {
                     synchronized (this) {
-                        int x = new Random().nextInt(parkingSize - 1) + 1;
-                        int y = new Random().nextInt(parkingSize - 1) + 1;
-                        parking.setCar(x, y);
-                        if (notFirst)
-                            parking.setDefault(previousX, previousY);
-                        System.out.println(x + "||" + y);
-                        previousX = x;
-                        previousY = y;
-                        notFirst = true;
-                        try {
-                            this.wait(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        ParkingCell freePlace = parking.findFreePlace();
+                        if (freePlace == null) System.out.println("freePlace is null");
+                        else {
+                            Position position = freePlace.getPosition();
+                            int x = position.getX();
+                            int y = position.getY();
+                            parking.setCar(x, y);
+                       /* if (notFirst)
+                            parking.setDefault(previousX, previousY);*/
+                            System.out.println(x + "||" + y);
+                            previousX = x;
+                            previousY = y;
+                            notFirst = true;
+                            try {
+                                this.wait(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

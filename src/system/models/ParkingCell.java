@@ -11,6 +11,7 @@ public class ParkingCell {
     private JPanel cellJPanel;
     private CellType type;
     private CellState state;
+    private Position position;
 
     public CellState getState() {
         return state;
@@ -53,5 +54,20 @@ public class ParkingCell {
 
     public void setType(CellType type) {
         this.type = type;
+    }
+
+    public Position getPosition() {
+        return new Position(row, column);
+    }
+
+    @Override
+    public String toString() {
+        return "ParkingCell{" +
+                "column=" + column +
+                ", row=" + row +
+                ", type=" + type +
+                ", state=" + state +
+                ", position=" + position +
+                '}';
     }
 }
