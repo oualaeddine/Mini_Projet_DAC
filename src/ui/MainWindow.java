@@ -1,10 +1,15 @@
 package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
+import system.models.Parking;
 
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
+import java.net.URL;
+import java.util.Random;
+
+import static system.enums.CellType.PARK;
+import static system.enums.CellType.ROAD;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,8 +20,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author berre
  */
-public class MainWindow extends javax.swing.JFrame {
-    private static final int size = 100;
+public class MainWindow extends JFrame {
 
     /**
      * Creates new form NewJFrame
@@ -37,12 +41,12 @@ public class MainWindow extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         parking_box = new javax.swing.JPanel();
-        parking = new javax.swing.JPanel();
+        parkingPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnStart = new javax.swing.JButton();
+        btnStop = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btnSettings = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -56,6 +60,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        test = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -68,36 +74,51 @@ public class MainWindow extends javax.swing.JFrame {
         parking_box.setMinimumSize(new java.awt.Dimension(550, 550));
         parking_box.setPreferredSize(new java.awt.Dimension(550, 550));
 
-        parking.setBackground(new java.awt.Color(204, 204, 204));
-        parking.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        parking.setMinimumSize(new java.awt.Dimension(550, 550));
-        parking.setPreferredSize(new java.awt.Dimension(550, 550));
-        parking.setLayout(new java.awt.GridLayout(size, size));
+        parkingPanel.setBackground(new java.awt.Color(204, 204, 204));
+        parkingPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        parkingPanel.setMinimumSize(new java.awt.Dimension(0, 0));
+        parkingPanel.setPreferredSize(new java.awt.Dimension(550, 550));
+        parkingPanel.setLayout(new java.awt.GridLayout(parkingSize, parkingSize));
 
         javax.swing.GroupLayout parking_boxLayout = new javax.swing.GroupLayout(parking_box);
         parking_box.setLayout(parking_boxLayout);
         parking_boxLayout.setHorizontalGroup(
             parking_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(parking, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(parkingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         parking_boxLayout.setVerticalGroup(
             parking_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(parking_boxLayout.createSequentialGroup()
-                .addComponent(parking, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(parkingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel4.setMinimumSize(new java.awt.Dimension(250, 0));
         jPanel4.setPreferredSize(new java.awt.Dimension(250, 247));
 
-        jButton1.setText("demarrer");
-        jButton1.setActionCommand("");
+        btnStart.setText("demarrer");
+        btnStart.setActionCommand("");
+        btnStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Arreter");
+        btnStop.setText("Arreter");
+        btnStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("toutes les places :");
 
-        jButton3.setText("parametres");
+        btnSettings.setText("parametres");
+        btnSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettingsActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("0");
 
@@ -123,15 +144,15 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel13.setText("parking size:");
 
-        jLabel14.setText(""+size);
+        jLabel14.setText(""+parkingSize);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnStop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -168,11 +189,11 @@ public class MainWindow extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnStart)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnStop)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btnSettings)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -204,6 +225,25 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
+        test.setBackground(new java.awt.Color(0, 255, 51));
+
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/automobile.png"))); // NOI18N
+        jLabel15.setIconTextGap(1);
+        jLabel15.setMinimumSize(new java.awt.Dimension(50, 50));
+        jLabel15.setPreferredSize(new java.awt.Dimension(50, 50));
+
+        javax.swing.GroupLayout testLayout = new javax.swing.GroupLayout(test);
+        test.setLayout(testLayout);
+        testLayout.setHorizontalGroup(
+            testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        testLayout.setVerticalGroup(
+            testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -211,15 +251,23 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(parking_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(test, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(parking_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(test, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
@@ -237,21 +285,69 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
+
+
+    }//GEN-LAST:event_btnSettingsActionPerformed
+
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        startTest();
+    }//GEN-LAST:event_btnStartActionPerformed
+
+    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
+        stopTest();
+    }//GEN-LAST:event_btnStopActionPerformed
+
+    /**
+     *
+     */
+    private Thread thread;
+
+    private void startTest() {
+        System.out.println("settingsClicked");
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int previousX = 1;
+                int previousY = 1;
+                boolean notFirst = false;
+                while (true) {
+                    synchronized (this) {
+                        int x = new Random().nextInt(parkingSize - 1) + 1;
+                        int y = new Random().nextInt(parkingSize - 1) + 1;
+                        parking.setCar(x, y);
+                        if (notFirst)
+                            parking.setDefault(previousX, previousY);
+                        System.out.println(x + "||" + y);
+                        previousX = x;
+                        previousY = y;
+                        notFirst = true;
+                        try {
+                            this.wait(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+    private void stopTest() {
+        thread.stop();
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-
         try {
             // select Look and Feel
             UIManager.setLookAndFeel(new DarculaLaf());
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -264,24 +360,24 @@ public class MainWindow extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
-
                 new MainWindow().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnSettings;
+    private javax.swing.JButton btnStart;
+    private javax.swing.JButton btnStop;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -292,21 +388,74 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel parking;
+    private javax.swing.JPanel parkingPanel;
     private javax.swing.JPanel parking_box;
+    private javax.swing.JPanel test;
     // End of variables declaration//GEN-END:variables
 
+
+    private static final int parkingSize = 50;//divisor of 550
+
+
+    public static int getParkingSize() {
+        return parkingSize;
+    }
+
+    private Parking parking = new Parking(parkingSize);
+
     private void customizeComponents() {
-        
-        for (int i = 1; i <= size; i++) {
-            for (int j = 1; j <= size; j++) {
-                javax.swing.JPanel pan = new javax.swing.JPanel();
-                if (j % 5 != 0)
-                    if (i % 2 == 0) {
-                        pan.setBackground(Color.gray);
-                    }
-                parking.add(pan);
-            }
+        for (int i = 1; i <= parkingSize; i++) {
+            if (isParkRow(i))
+                addParkRow(i);
+            else
+                addRoadRow(i);
         }
+    }
+
+    private boolean isParkRow(int i) {
+        return i % 3 == 0;
+    }
+
+    private void addRoadRow(int row) {
+        for (int j = 1; j <= parkingSize; j++)
+            addRoadCell(row, j);
+    }
+
+    private void addParkRow(int row) {
+        for (int j = 1; j <= parkingSize; j++) {
+
+            if (j % 6 != 0) {
+                if ((j < 3) || (j - 1) % 6 == 0)
+                    addRoadCell(row, j);
+                else
+                    addParkCell(row, j);
+            } else
+                addRoadCell(row, j);
+        }
+    }
+
+    private void addParkCell(int row, int column) {
+        JPanel pan = new JPanel();
+        pan.setBackground(Color.gray);
+        parkingPanel.add(pan);
+        parking.addCellToParking(pan, row, column, PARK);
+    }
+
+    private void addRoadCell(int row, int column) {
+        JPanel pan = new JPanel();
+        pan.setBackground(Color.decode("#303030"));
+        parkingPanel.add(pan);
+        parking.addCellToParking(pan, row, column, ROAD);
+    }
+
+
+    private void DisplayImage(JPanel jp) {
+        JLabel jl = new JLabel();
+        URL rr = getClass().getClassLoader().getResource("images/automobile.png");
+        System.out.println(rr.getPath());
+        Icon imf = new javax.swing.ImageIcon(rr);
+        System.out.println("" + imf != null);
+        jl.setIcon(imf);
+        jp.add(jl);
     }
 }
