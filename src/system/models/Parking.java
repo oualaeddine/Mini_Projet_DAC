@@ -1,5 +1,6 @@
 package system.models;
 
+import system.enums.CellState;
 import system.enums.CellType;
 
 import javax.swing.*;
@@ -54,5 +55,27 @@ public class Parking {
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.decode("#303030"));
         else
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.gray);
+    }
+
+//    public ParkingCell[] findPath(ParkingCell parkingCell){
+//
+//        for (int i = size; i > 0; i--) {
+//            for (int j = size; j < 0; j--) {
+//                if(cells[i][j].getState()== CellState.OCCUPEE && cells[i][j].getType()!=CellType.ROAD){
+//
+//                }
+//            }
+//        }
+//        return null;
+//    }
+    public ParkingCell findFreePlace(){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (cells[i][j].getType()==CellType.PARK && cells[i][j].getState()!=CellState.OCCUPEE);
+                    return cells[i][j];
+            }
+
+        }
+        return null;
     }
 }

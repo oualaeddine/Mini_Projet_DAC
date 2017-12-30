@@ -1,5 +1,6 @@
 package system.models;
 
+import system.enums.CellState;
 import system.enums.CellType;
 
 import javax.swing.*;
@@ -9,6 +10,15 @@ public class ParkingCell {
     private int row;
     private JPanel cellJPanel;
     private CellType type;
+    private CellState state;
+
+    public CellState getState() {
+        return state;
+    }
+
+    public void setState(CellState state) {
+        this.state = state;
+    }
 
     public ParkingCell() {
     }
