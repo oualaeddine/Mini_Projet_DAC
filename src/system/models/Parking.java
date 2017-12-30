@@ -28,7 +28,7 @@ public class Parking {
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         ImageIcon yourImage = new javax.swing.ImageIcon(getClass().getResource("/images/automobile.png"));
-        ImageIcon scaledImg = new javax.swing.ImageIcon( yourImage.getImage().getScaledInstance(cells[x - 1][y - 1].getCellJPanel().getWidth(),cells[x - 1][y - 1].getCellJPanel().getHeight(), Image.SCALE_FAST));
+        ImageIcon scaledImg = new javax.swing.ImageIcon(yourImage.getImage().getScaledInstance(cells[x - 1][y - 1].getCellJPanel().getWidth(), cells[x - 1][y - 1].getCellJPanel().getHeight(), Image.SCALE_FAST));
         jLabel15.setIcon(scaledImg); // NOI18N
         jLabel15.setIconTextGap(1);
         //  jLabel15.setMinimumSize(new java.awt.Dimension(50, 50));
@@ -48,6 +48,8 @@ public class Parking {
 
     public void setDefault(int x, int y) {
         cells[x - 1][y - 1].getCellJPanel().removeAll();
+        cells[x - 1][y - 1].getCellJPanel().repaint();
+        cells[x - 1][y - 1].getCellJPanel().updateUI();
         if (cells[x - 1][y - 1].getType() == CellType.ROAD)
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.decode("#303030"));
         else
