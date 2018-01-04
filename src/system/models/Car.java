@@ -1,7 +1,5 @@
 package system.models;
 
-import javax.swing.*;
-
 public class Car {
     private int matricule;
     private Client client;
@@ -23,5 +21,13 @@ public class Car {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "matricule=" + matricule +
+                ", client=" + client +
+                '}';
     }
 }

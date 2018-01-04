@@ -24,4 +24,12 @@ public class Client {
     public void setType(ClientType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "type=" + type +
+                ", id=" + id +
+                '}';
+    }
 }

@@ -17,29 +17,29 @@ public class MovingCar extends Car implements Moving {
     @Override
     public void goLeft() {
         direction = LEFT;
-        if (position.getX() < MainWindow.getParkingSize())
-            position.setX(position.getX() - 1);
+        if (position.getRow() < MainWindow.getParkingSize())
+            position.setRow(position.getRow() - 1);
     }
 
     @Override
     public void goRight() {
         direction = RIGHT;
-        if (position.getX() < MainWindow.getParkingSize())
-            position.setX(position.getX() + 1);
+        if (position.getRow() < MainWindow.getParkingSize())
+            position.setRow(position.getRow() + 1);
     }
 
     @Override
     public void goUp() {
         direction = UP;
-        if (position.getY() < MainWindow.getParkingSize())
-            position.setY(position.getY() - 1);
+        if (position.getColumn() < MainWindow.getParkingSize())
+            position.setColumn(position.getColumn() - 1);
     }
 
     @Override
     public void goDown() {
         direction = DOWN;
-        if (position.getY() < MainWindow.getParkingSize())
-            position.setY(position.getY() + 1);
+        if (position.getColumn() < MainWindow.getParkingSize())
+            position.setColumn(position.getColumn() + 1);
     }
 
     public void setPosition(Position position) {
@@ -56,5 +56,13 @@ public class MovingCar extends Car implements Moving {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    @Override
+    public String toString() {
+        return "MovingCar{" +
+                "position=" + position +
+                ", direction=" + direction +
+                "} " + super.toString();
     }
 }

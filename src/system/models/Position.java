@@ -2,38 +2,56 @@ package system.models;
 
 public class Position {
 
-    private int x, y;
+    private int row, column;
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     public Position() {
 
     }
 
-    public int getX() {
-        return x;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
+
+        Position position = (Position) o;
+
+        if (row != position.row) return false;
+        return column == position.column;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    @Override
+    public int hashCode() {
+        int result = row;
+        result = 31 * result + column;
+        return result;
     }
 
-    public int getY() {
-        return y;
+    public int getColumn() {
+        return column;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
     }
 
     @Override
     public String toString() {
         return "Position{" +
-                "x=" + x +
-                ", y=" + y +
+                "row=" + row +
+                ", column=" + column +
                 '}';
     }
 }
