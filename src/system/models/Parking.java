@@ -163,4 +163,9 @@ public class Parking {
         System.out.println(vehicules[i]);
         return vehicules[i];
     }
+
+    public void occupy(ParkingCell freePlace) {
+        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
+
+    }
 }

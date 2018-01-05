@@ -340,7 +340,6 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private static final int parkingSize = 10;//divisor of 550
 
     private void addRoadRow(int row) {
         for (int j = 1; j <= parkingSize; j++)
@@ -394,6 +393,8 @@ public class MainWindow extends JFrame {
         }
     }
 
+    private static final int parkingSize = 25;//divisor of 550
+
     private void startTest() {
         thread = new Thread(new Runnable() {
             @Override
@@ -415,6 +416,7 @@ public class MainWindow extends JFrame {
                             GraphicCar testCar;
                             testCar = new GraphicCar();
                             for (ParkingCell cell : parking.findPath(freePlace)) {
+                                parking.occupy(freePlace);
                                 testCar.setPosition(cell.getPosition());
                                 parking.setCar(testCar);
                                 try {
