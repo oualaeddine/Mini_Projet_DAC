@@ -6,6 +6,7 @@ import ui.MainWindow;
 
 import static system.enums.Direction.*;
 
+/*balak no need for Moving interface*/
 public class MovingCar extends Car implements Moving {
     private Position position;
     private Direction direction;

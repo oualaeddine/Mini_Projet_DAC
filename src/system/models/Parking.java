@@ -171,4 +171,45 @@ public class Parking {
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
 
     }
+
+    public void prendrePlace(GraphicCar testCar) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int previousX = 1;
+                int previousY = 1;
+                synchronized (this) {
+                    boolean notFirst = false;
+                    ParkingCell freePlace = findFreePlace();
+                    if (freePlace == null) System.out.println("no free place left!");
+                    else {
+                        ParkingCell departParkingCell = new ParkingCell();
+                        departParkingCell.setRow(1);
+                        departParkingCell.setColumn(1);
+                        for (ParkingCell cell : findPath(freePlace, departParkingCell)) {
+                            testCar.setPosition(cell.getPosition());
+                            setCar(testCar);
+                            try {
+                                this.wait(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if (notFirst)
+                                setDefault(previousX, previousY);
+                            previousX = cell.getRow();
+                            previousY = cell.getColumn();
+                            notFirst = true;
+                        }
+                        try {
+                            this.wait(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
 }
