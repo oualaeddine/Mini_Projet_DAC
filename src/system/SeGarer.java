@@ -1,9 +1,10 @@
 package system;
 
-import sun.applet.Main;
 import system.models.Parking;
 import ui.GraphicCar;
 import ui.MainWindow;
+
+import java.util.Random;
 
 public class SeGarer extends Thread{
     private Parking parking;
@@ -20,7 +21,7 @@ public class SeGarer extends Thread{
 
     public synchronized void assena(){
         try {
-            long waiting=(long) Math.random()*300;
+            long waiting = new Random().nextInt(5000) + 3000;
             System.out.println("Waiting");
             this.wait(waiting);
         } catch (InterruptedException e) {
@@ -38,6 +39,7 @@ public class SeGarer extends Thread{
         assena();
         MainWindow.getSortie().P();
         //Sortir et libérer la place
+        parking.sortir(this.voiture);
         MainWindow.getSortie().V();
         MainWindow.getVide().V();
 

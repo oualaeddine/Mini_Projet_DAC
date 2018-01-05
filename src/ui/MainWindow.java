@@ -357,7 +357,6 @@ public class MainWindow extends JFrame {
     private void customizeComponents() {
         parking = new Parking(parkingSize);
         initVoituresList();
-        launchVoitures();
         for (int i = 1; i <= parkingSize; i++) {
             if (isParkRow(i))
                 addParkRow(i);
@@ -427,7 +426,6 @@ public class MainWindow extends JFrame {
 
 
     private void stopTest() {
-        thread.stop();
     }
 
 

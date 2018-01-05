@@ -2,14 +2,11 @@ package system.models;
 
 import system.enums.CellState;
 import system.enums.CellType;
-import system.enums.Direction;
-import system.utils.ImageUtils;
 import ui.GraphicCar;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class Parking {
     private final int size;
@@ -33,10 +30,14 @@ public class Parking {
             "/images/truck3.png",
             "/images/truck4.png",
     };
+    private ParkingCell sortie;
 
     public Parking(int size) {
         this.size = size;
         this.cells = new ParkingCell[size][size];
+        sortie = new ParkingCell();
+        sortie.setRow(size);
+        sortie.setColumn(size);
     }
 
     public void addCellToParking(JPanel pan, int row, int column, CellType type) {
@@ -48,25 +49,6 @@ public class Parking {
         cells[row - 1][column - 1] = parkingCell;
     }
 
-    public void setCar(int x, int y) {
-        JLabel jLabel15 = new JLabel();
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ImageIcon yourImage = new javax.swing.ImageIcon(getClass().getResource(getRandomVehicle()));
-        ImageIcon scaledImg = new javax.swing.ImageIcon(yourImage.getImage().getScaledInstance(cells[x - 1][y - 1].getCellJPanel().getWidth(), cells[x - 1][y - 1].getCellJPanel().getHeight(), Image.SCALE_FAST));
-        jLabel15.setIcon(ImageUtils.rotateImg(scaledImg, Direction.S)); // NOI18N
-        jLabel15.setIconTextGap(1);
-        javax.swing.GroupLayout testLayout = new javax.swing.GroupLayout(cells[x - 1][y - 1].getCellJPanel());
-        cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
-        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
-        testLayout.setHorizontalGroup(
-                testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, cells[x - 1][y - 1].getCellJPanel().getHeight(), javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        testLayout.setVerticalGroup(
-                testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, cells[x - 1][y - 1].getCellJPanel().getHeight(), javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-    }
 
     public void setCar(GraphicCar car) {
         int x = car.getPosition().getRow();
@@ -161,11 +143,6 @@ public class Parking {
         return null;
     }
 
-    public String getRandomVehicle() {
-        int i = new Random().nextInt(vehicules.length);
-        System.out.println(vehicules[i]);
-        return vehicules[i];
-    }
 
     public void occupy(ParkingCell freePlace) {
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
@@ -176,30 +153,15 @@ public class Parking {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                int previousX = 1;
-                int previousY = 1;
+
                 synchronized (this) {
-                    boolean notFirst = false;
                     ParkingCell freePlace = findFreePlace();
                     if (freePlace == null) System.out.println("no free place left!");
                     else {
                         ParkingCell departParkingCell = new ParkingCell();
                         departParkingCell.setRow(1);
                         departParkingCell.setColumn(1);
-                        for (ParkingCell cell : findPath(freePlace, departParkingCell)) {
-                            testCar.setPosition(cell.getPosition());
-                            setCar(testCar);
-                            try {
-                                this.wait(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            if (notFirst)
-                                setDefault(previousX, previousY);
-                            previousX = cell.getRow();
-                            previousY = cell.getColumn();
-                            notFirst = true;
-                        }
+                        deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
                         try {
                             this.wait(500);
                         } catch (InterruptedException e) {
@@ -212,4 +174,51 @@ public class Parking {
         thread.start();
     }
 
+    public void sortir(GraphicCar voiture) {
+        ParkingCell current = new ParkingCell();
+        current.setColumn(voiture.getPosition().getColumn());
+        current.setRow(voiture.getPosition().getRow());
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                synchronized (this) {
+                    ParkingCell freePlace = sortie;
+                    if (freePlace == null) System.out.println("no free place left!");
+                    else {
+                        ParkingCell departParkingCell = new ParkingCell();
+                        departParkingCell.setRow(voiture.getPosition().getRow());
+                        departParkingCell.setColumn(voiture.getPosition().getColumn());
+                        deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
+                        try {
+                            this.wait(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void deplacerVoitureSurPath(ParkingCell departParkingCell, ParkingCell destinationParkingCell, GraphicCar voiture, Runnable context) {
+        boolean notFirst = false;
+        int previousX = 1;
+        int previousY = 1;
+        for (ParkingCell cell : findPath(destinationParkingCell, departParkingCell)) {
+            voiture.setPosition(cell.getPosition());
+            setCar(voiture);
+            try {
+                context.wait(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (notFirst)
+                setDefault(previousX, previousY);
+            previousX = cell.getRow();
+            previousY = cell.getColumn();
+            notFirst = true;
+        }
+    }
 }
