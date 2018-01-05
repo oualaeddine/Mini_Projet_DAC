@@ -1,6 +1,7 @@
 package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
+import system.SeGarer;
 import system.Semaphore;
 import system.models.Parking;
 
@@ -23,13 +24,29 @@ import static system.enums.CellType.ROAD;
  */
 public class MainWindow extends JFrame {
 
-    private Semaphore vide;
-    private Semaphore borne;
-    private Semaphore sortie;
-    private Semaphore entree;
+    private static Semaphore vide;
+    private static Semaphore borne;
+    private static Semaphore sortie;
+    private static Semaphore entree;
     //Heda houwa
-    private int nbrVoitures;
+    private int nbrVoitures=20;
     private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
+
+    public static Semaphore getVide() {
+        return vide;
+    }
+
+    public static Semaphore getBorne() {
+        return borne;
+    }
+
+    public static Semaphore getSortie() {
+        return sortie;
+    }
+
+    public static Semaphore getEntree() {
+        return entree;
+    }
 
     /**
      * Creates new form NewJFrame
@@ -119,7 +136,7 @@ public class MainWindow extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        initSemaphores();
         jPanel1 = new javax.swing.JPanel();
         parking_box = new javax.swing.JPanel();
         parkingPanel = new javax.swing.JPanel();
@@ -339,7 +356,8 @@ public class MainWindow extends JFrame {
 
     private void customizeComponents() {
         parking = new Parking(parkingSize);
-
+        initVoituresList();
+        launchVoitures();
         for (int i = 1; i <= parkingSize; i++) {
             if (isParkRow(i))
                 addParkRow(i);
@@ -426,6 +444,7 @@ public class MainWindow extends JFrame {
         for (int i = 0; i < nbrVoitures; i++) {
             GraphicCar graphicCar = new GraphicCar();
             listVoitures.add(graphicCar);
+
         }
     }
 
@@ -433,7 +452,8 @@ public class MainWindow extends JFrame {
     //initialised in the previous method
     void launchVoitures() {
         for (int i = 0; i < nbrVoitures; i++) {
-            parking.prendrePlace(listVoitures.get(i));
+//            parking.prendrePlace(listVoitures.get(i));
+            new SeGarer(parking,listVoitures.get(i)).start();
         }
     }
 }
