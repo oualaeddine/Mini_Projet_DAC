@@ -9,8 +9,8 @@ import java.awt.*;
  * orientations:
  * <p>
  * <ul>
- * <li>DOWN - rotated 90 degrees
- * <li>UP (default) - rotated -90 degrees
+ * <li>S - rotated 90 degrees
+ * <li>N (default) - rotated -90 degrees
  * <li>UPSIDE_DOWN - rotated 180 degrees
  * <li>ABOUT_CENTER - the icon is rotated by the specified degrees about its center.
  * </ul>
@@ -22,7 +22,7 @@ public class RotatedIcon implements Icon {
     private boolean circularIcon;
 
     /**
-     * Convenience constructor to create a RotatedIcon that is rotated DOWN.
+     * Convenience constructor to create a RotatedIcon that is rotated S.
      *
      * @param icon the Icon to rotate
      */

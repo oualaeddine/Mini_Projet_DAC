@@ -1,5 +1,6 @@
 package ui;
 
+import system.enums.Direction;
 import system.models.MovingCar;
 import system.utils.ImageUtils;
 
@@ -34,6 +35,7 @@ public class GraphicCar extends MovingCar {
 
     public GraphicCar() {
         image = getRandomVehicle();
+        setupIconSize(1, 1);
     }
 
     public String getRandomVehicle() {
@@ -47,7 +49,7 @@ public class GraphicCar extends MovingCar {
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageIcon yourImage = new ImageIcon(getClass().getResource(image/*vehicules[6]*/));
         ImageIcon scaledImg = new ImageIcon(yourImage.getImage().getScaledInstance(width, height, Image.SCALE_FAST));
-        label.setIcon(ImageUtils.rotateImg(scaledImg, 45.0)); // NOI18N
+        label.setIcon(ImageUtils.rotateImg(scaledImg, Direction.E)); // NOI18N
         label.setIconTextGap(1);
     }
 

@@ -4,9 +4,11 @@ import system.enums.CellState;
 import system.enums.CellType;
 import system.enums.Direction;
 import system.utils.ImageUtils;
+import ui.GraphicCar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Parking {
@@ -51,10 +53,8 @@ public class Parking {
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ImageIcon yourImage = new javax.swing.ImageIcon(getClass().getResource(getRandomVehicle()));
         ImageIcon scaledImg = new javax.swing.ImageIcon(yourImage.getImage().getScaledInstance(cells[x - 1][y - 1].getCellJPanel().getWidth(), cells[x - 1][y - 1].getCellJPanel().getHeight(), Image.SCALE_FAST));
-        jLabel15.setIcon(ImageUtils.rotateImg(scaledImg, Direction.DOWN)); // NOI18N
+        jLabel15.setIcon(ImageUtils.rotateImg(scaledImg, Direction.S)); // NOI18N
         jLabel15.setIconTextGap(1);
-        //  jLabel15.setMinimumSize(new java.awt.Dimension(50, 50));
-        //jLabel15.setPreferredSize(new java.awt.Dimension(50, 50));
         javax.swing.GroupLayout testLayout = new javax.swing.GroupLayout(cells[x - 1][y - 1].getCellJPanel());
         cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
         cells[x - 1][y - 1].setState(CellState.OCCUPEE);
@@ -68,8 +68,35 @@ public class Parking {
         );
     }
 
+    public void setCar(GraphicCar car) {
+        int x = car.getPosition().getRow();
+        int y = car.getPosition().getColumn();
+        int cellHeight = cells[x - 1][y - 1].getCellJPanel().getHeight();
+        int cellWidth = cells[x - 1][y - 1].getCellJPanel().getHeight();
+
+        GroupLayout testLayout = new GroupLayout(cells[x - 1][y - 1].getCellJPanel());
+        cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
+        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
+        car.setupIconSize(cellWidth, cellHeight);
+        JLabel jLabel15 = car.getLabel();
+        testLayout.setHorizontalGroup(
+                testLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15,
+                                GroupLayout.PREFERRED_SIZE,
+                                cellHeight,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        testLayout.setVerticalGroup(
+                testLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15,
+                                GroupLayout.PREFERRED_SIZE,
+                                cellHeight,
+                                GroupLayout.PREFERRED_SIZE)
+        );
+    }
+
     public void setDefault(int x, int y) {
-        cells[x - 1][y - 1].setState(CellState.LIBRE);
+        // cells[x - 1][y - 1].setState(CellState.LIBRE);
 
         cells[x - 1][y - 1].getCellJPanel().removeAll();
         cells[x - 1][y - 1].getCellJPanel().repaint();
@@ -80,17 +107,43 @@ public class Parking {
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.gray);
     }
 
-//    public ParkingCell[] findPath(ParkingCell parkingCell){
-//
-//        for (int i = size; i > 0; i--) {
-//            for (int j = size; j < 0; j--) {
-//                if(cells[i][j].getState()== CellState.OCCUPEE && cells[i][j].getType()!=CellType.ROAD){
-//
-//                }
-//            }
-//        }
-//        return null;
-//    }
+    public LinkedList<ParkingCell> findPath(ParkingCell parkingCell) {
+        LinkedList<ParkingCell> path = new LinkedList<>();
+        int columnIndex = 0;
+        int startRowIndex = 0;
+        int targetColumn = parkingCell.getPosition().getColumn();
+        int targetRow = parkingCell.getPosition().getRow();
+        //path.add(cells[1][0]);
+        /*path.add(cells[1][1]);*/
+        boolean found = false;
+        //on parcoure les lignes jusqu'a celle qui contient la place vide
+        for (int rowIndex = startRowIndex; rowIndex < targetRow - 1; rowIndex++) {
+            //si la ligne juste en dessous de mon pointeur n'est pas du type route
+            //on enregistre les cases parcourus (elles seront notre chemin versla colone dont
+            // on utilisera pour descendre a la ligne avant celle qui contient notre target)
+            while (columnIndex <= size - 1 || found) {
+                path.add(cells[rowIndex][columnIndex]);
+                if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD) {
+                    found = true;
+                    break;
+                }
+                columnIndex++;
+            }
+            path.add(cells[rowIndex][columnIndex]);
+        }
+        //on parcoure la ligne audessus de la ligne target jusqu'a a la colonne target
+        while (columnIndex != targetColumn) {
+            //si la colonne target est a gauche du pointeur on decremente sinn on incremente
+            if (columnIndex < targetColumn)
+                columnIndex++;
+            else
+                columnIndex--;
+            path.add(cells[targetRow - 2][columnIndex - 1]);
+        }
+        //on ajoute la case target
+        path.add(cells[targetRow - 1][targetColumn - 1]);
+        return path;
+    }
 
 
     public ParkingCell findFreePlace() {

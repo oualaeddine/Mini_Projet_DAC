@@ -31,7 +31,6 @@ public class MainWindow extends JFrame {
         customizeComponents();
     }
 
-    private static final int parkingSize = 22;//divisor of 550
 
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
 
@@ -341,26 +340,15 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private boolean isParkRow(int i) {
-        return i % 3 == 0;
-    }
+    private static final int parkingSize = 10;//divisor of 550
 
     private void addRoadRow(int row) {
         for (int j = 1; j <= parkingSize; j++)
             addRoadCell(row, j);
     }
 
-    private void addParkRow(int row) {
-        for (int j = 1; j <= parkingSize; j++) {
-
-            if (j % 6 != 0) {
-                if ((j < 3) || (j - 1) % 6 == 0)
-                    addRoadCell(row, j);
-                else
-                    addParkCell(row, j);
-            } else
-                addRoadCell(row, j);
-        }
+    private boolean isParkRow(int i) {
+        return i % 2 == 0;
     }
 
     private void addParkCell(int row, int column) {
@@ -393,28 +381,54 @@ public class MainWindow extends JFrame {
      */
     private Thread thread;
 
+    private void addParkRow(int row) {
+        for (int j = 1; j <= parkingSize; j++) {
+
+            if (j % 6 != 0) {
+      /*          if ((j < 2) || (j - 1) % 6 == 0)
+                    addRoadCell(row, j);
+                else*/
+                addParkCell(row, j);
+            } else
+                addRoadCell(row, j);
+        }
+    }
+
     private void startTest() {
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 int previousX = 1;
                 int previousY = 1;
-                boolean notFirst = false;
                 while (true) {
                     synchronized (this) {
+                        boolean notFirst = false;
+
                         ParkingCell freePlace = parking.findFreePlace();
+                       /* freePlace.setRow(4);
+                        freePlace.setColumn(13);*/
                         if (freePlace == null) System.out.println("freePlace is null");
                         else {
                             Position position = freePlace.getPosition();
-                            int x = position.getX();
-                            int y = position.getY();
-                            parking.setCar(x, y);
-                       /* if (notFirst)
-                            parking.setDefault(previousX, previousY);*/
-                            System.out.println(x + "||" + y);
-                            previousX = x;
-                            previousY = y;
-                            notFirst = true;
+                            int x = position.getRow();
+                            int y = position.getColumn();
+                            GraphicCar testCar;
+                            testCar = new GraphicCar();
+                            for (ParkingCell cell : parking.findPath(freePlace)) {
+                                testCar.setPosition(cell.getPosition());
+                                parking.setCar(testCar);
+                                try {
+                                    this.wait(50);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                if (notFirst)
+                                    parking.setDefault(previousX, previousY);
+                                System.out.println(x + "||" + y);
+                                previousX = cell.getRow();
+                                previousY = cell.getColumn();
+                                notFirst = true;
+                            }
                             try {
                                 this.wait(500);
                             } catch (InterruptedException e) {

@@ -16,28 +16,28 @@ public class MovingCar extends Car implements Moving {
 
     @Override
     public void goLeft() {
-        direction = LEFT;
+        direction = E;
         if (position.getRow() < MainWindow.getParkingSize())
             position.setRow(position.getRow() - 1);
     }
 
     @Override
     public void goRight() {
-        direction = RIGHT;
+        direction = O;
         if (position.getRow() < MainWindow.getParkingSize())
             position.setRow(position.getRow() + 1);
     }
 
     @Override
     public void goUp() {
-        direction = UP;
+        direction = N;
         if (position.getColumn() < MainWindow.getParkingSize())
             position.setColumn(position.getColumn() - 1);
     }
 
     @Override
     public void goDown() {
-        direction = DOWN;
+        direction = S;
         if (position.getColumn() < MainWindow.getParkingSize())
             position.setColumn(position.getColumn() + 1);
     }

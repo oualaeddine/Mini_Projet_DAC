@@ -1,5 +1,5 @@
 package system.enums;
 
 public enum Direction {
-    UP, DOWN, RIGHT, LEFT
+    N, S, O, E, NE, NO, SE, SO
 }
