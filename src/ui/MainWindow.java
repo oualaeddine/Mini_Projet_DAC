@@ -7,6 +7,7 @@ import system.models.Parking;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.LinkedList;
 
 import static system.enums.CellType.PARK;
 import static system.enums.CellType.ROAD;
@@ -26,6 +27,9 @@ public class MainWindow extends JFrame {
     private Semaphore borne;
     private Semaphore sortie;
     private Semaphore entree;
+    //Heda houwa
+    private int nbrVoitures;
+    private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
 
     /**
      * Creates new form NewJFrame
@@ -417,15 +421,19 @@ public class MainWindow extends JFrame {
     }
 
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
-    // dont le nbr de cars = un attribuet de la classe Mainwindow
+    // dont le nbr de cars = un attribut de la classe Mainwindow
     void initVoituresList() {
-
+        for (int i = 0; i < nbrVoitures; i++) {
+            GraphicCar graphicCar = new GraphicCar();
+            listVoitures.add(graphicCar);
+        }
     }
 
     // TODO: 1/5/2018 lancer les threads des voitures contenues dans la liste
     //initialised in the previous method
     void launchVoitures() {
-        GraphicCar car = new GraphicCar();
-        parking.prendrePlace(car);
+        for (int i = 0; i < nbrVoitures; i++) {
+            parking.prendrePlace(listVoitures.get(i));
+        }
     }
 }
