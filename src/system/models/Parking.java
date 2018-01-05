@@ -107,12 +107,13 @@ public class Parking {
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.gray);
     }
 
-    public LinkedList<ParkingCell> findPath(ParkingCell parkingCell) {
+    public LinkedList<ParkingCell> findPath(ParkingCell targetParkingCell, ParkingCell departParkingCell) {
+        occupy(targetParkingCell);
         LinkedList<ParkingCell> path = new LinkedList<>();
-        int columnIndex = 0;
-        int startRowIndex = 0;
-        int targetColumn = parkingCell.getPosition().getColumn();
-        int targetRow = parkingCell.getPosition().getRow();
+        int columnIndex = departParkingCell.getColumn() - 1;
+        int startRowIndex = departParkingCell.getRow() - 1;
+        int targetColumn = targetParkingCell.getPosition().getColumn();
+        int targetRow = targetParkingCell.getPosition().getRow();
         //path.add(cells[1][0]);
         /*path.add(cells[1][1]);*/
         boolean found = false;
@@ -123,7 +124,9 @@ public class Parking {
             // on utilisera pour descendre a la ligne avant celle qui contient notre target)
             while (columnIndex <= size - 1 || found) {
                 path.add(cells[rowIndex][columnIndex]);
-                if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD) {
+                if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD ||
+                        (cells[rowIndex + 1][columnIndex].getType() != CellType.ROAD &&
+                                cells[rowIndex + 1][columnIndex].getState() == CellState.LIBRE)) {
                     found = true;
                     break;
                 }

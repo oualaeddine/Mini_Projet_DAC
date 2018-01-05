@@ -393,49 +393,55 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private static final int parkingSize = 25;//divisor of 550
+    private static final int parkingSize = 22;//divisor of 550
 
     private void startTest() {
+        // while (true) {
+        GraphicCar car = new GraphicCar();
+        seGarer(car);
+        // }
+    }
+
+    private void seGarer(GraphicCar testCar) {
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 int previousX = 1;
                 int previousY = 1;
-                while (true) {
-                    synchronized (this) {
-                        boolean notFirst = false;
-
-                        ParkingCell freePlace = parking.findFreePlace();
+                synchronized (this) {
+                    boolean notFirst = false;
+                    ParkingCell freePlace = parking.findFreePlace();
                        /* freePlace.setRow(4);
                         freePlace.setColumn(13);*/
-                        if (freePlace == null) System.out.println("freePlace is null");
-                        else {
-                            Position position = freePlace.getPosition();
-                            int x = position.getRow();
-                            int y = position.getColumn();
-                            GraphicCar testCar;
-                            testCar = new GraphicCar();
-                            for (ParkingCell cell : parking.findPath(freePlace)) {
-                                parking.occupy(freePlace);
-                                testCar.setPosition(cell.getPosition());
-                                parking.setCar(testCar);
-                                try {
-                                    this.wait(50);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                if (notFirst)
-                                    parking.setDefault(previousX, previousY);
-                                System.out.println(x + "||" + y);
-                                previousX = cell.getRow();
-                                previousY = cell.getColumn();
-                                notFirst = true;
-                            }
+                    if (freePlace == null) {
+                        System.out.println("freePlace is null");
+                        initComponents();
+                    } else {
+                        Position position = freePlace.getPosition();
+                        int x = position.getRow();
+                        int y = position.getColumn();
+                        ParkingCell departParkingCell = new ParkingCell();
+                        departParkingCell.setRow(1);
+                        departParkingCell.setColumn(1);
+                        for (ParkingCell cell : parking.findPath(freePlace, departParkingCell)) {
+                            testCar.setPosition(cell.getPosition());
+                            parking.setCar(testCar);
                             try {
-                                this.wait(500);
+                                this.wait(50);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            if (notFirst)
+                                parking.setDefault(previousX, previousY);
+                            System.out.println(x + "||" + y);
+                            previousX = cell.getRow();
+                            previousY = cell.getColumn();
+                            notFirst = true;
+                        }
+                        try {
+                            this.wait(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -443,8 +449,6 @@ public class MainWindow extends JFrame {
         });
         thread.start();
     }
-
-
     private void stopTest() {
         thread.stop();
     }
