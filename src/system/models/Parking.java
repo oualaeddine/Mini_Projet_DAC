@@ -184,18 +184,13 @@ public class Parking {
 
                 synchronized (this) {
                     ParkingCell freePlace = sortie;
-                    if (freePlace == null) System.out.println("no free place left!");
-                    else {
+
+                        cells[voiture.getPosition().getRow()][voiture.getPosition().getColumn()].setState(CellState.LIBRE);
                         ParkingCell departParkingCell = new ParkingCell();
                         departParkingCell.setRow(voiture.getPosition().getRow());
                         departParkingCell.setColumn(voiture.getPosition().getColumn());
                         deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
-                        try {
-                            this.wait(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+
                 }
             }
         });

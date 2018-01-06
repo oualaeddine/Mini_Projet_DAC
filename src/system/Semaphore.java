@@ -38,6 +38,6 @@ public class Semaphore {
 
     public synchronized void V() {
         n++;
-        notifyAll();
+        notify();
     }
 }
