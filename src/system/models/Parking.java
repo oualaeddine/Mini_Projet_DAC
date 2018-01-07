@@ -71,7 +71,6 @@ public class Parking {
     }
 
     public LinkedList<ParkingCell> findPath(ParkingCell targetParkingCell, ParkingCell departParkingCell) {
-        occupy(targetParkingCell);
         LinkedList<ParkingCell> path = new LinkedList<>();
         int columnIndex = departParkingCell.getColumn() - 1;
         int startRowIndex = departParkingCell.getRow() - 1;
@@ -140,6 +139,8 @@ public class Parking {
                         ParkingCell departParkingCell = new ParkingCell();
                         departParkingCell.setRow(1);
                         departParkingCell.setColumn(1);
+                        occupy(freePlace);
+
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
                         try {
                             this.wait(700);
@@ -162,9 +163,9 @@ public class Parking {
             public void run() {
                 synchronized (this) {
                     ParkingCell departParkingCell = new ParkingCell();
-                    liberer(departParkingCell);
                     departParkingCell.setRow(voiture.getPosition().getRow());
                     departParkingCell.setColumn(voiture.getPosition().getColumn());
+                    liberer(departParkingCell);
                     deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
                 }
             }

@@ -425,12 +425,7 @@ public class MainWindow extends JFrame {
     }
 
 
-    void initSemaphores() {
-        vide = new Semaphore(/*nbrParkCells*/1, "Vide");
-        entree = new Semaphore(1, "Entrée");
-        sortie = new Semaphore(1, "Sortie");
-        borne = new Semaphore(1, "Borne de paiement");
-    }
+    private static final int parkingSize = 6;//divisor of 550
 
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
     // dont le nbr de cars = un attribut de la classe Mainwindow
@@ -451,7 +446,12 @@ public class MainWindow extends JFrame {
         }
     }
 
+    private int nbrVoitures = 5;
 
-    private static final int parkingSize = 7;//divisor of 550
-    private int nbrVoitures = 20;
+    void initSemaphores() {
+        vide = new Semaphore(/*nbrParkCells*/2, "Vide");
+        entree = new Semaphore(1, "Entrée");
+        sortie = new Semaphore(1, "Sortie");
+        borne = new Semaphore(1, "Borne de paiement");
+    }
 }
