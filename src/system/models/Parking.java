@@ -140,11 +140,10 @@ public class Parking {
                         departParkingCell.setRow(1);
                         departParkingCell.setColumn(1);
                         occupy(freePlace);
-
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
-                        cells[freePlace.getRow()-1][freePlace.getColumn()-1].setState(CellState.OCCUPEE);
+                        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
                         try {
-                            this.wait(700);
+                            this.wait(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -181,7 +180,7 @@ public class Parking {
 
 
     public void occupy(ParkingCell freePlace) {
-        System.out.println("occupy = [" + freePlace + "]");
+        System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
     }
 

@@ -16,14 +16,19 @@ public class SeGarer extends Thread {
     }
 
     public void trouver() {
-//        synchronized (this) {
+        synchronized (this) {
 
             parking.prendrePlace(this.voiture);
-//                this.wait(500);
+            try {
+                this.wait(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-//        }
+        }
     }
-    public void ekhroj(){
+
+    public void ekhroj() {
         parking.sortir(this.voiture);
     }
 
