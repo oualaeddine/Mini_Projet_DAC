@@ -29,7 +29,6 @@ public class MainWindow extends JFrame {
     private static Semaphore sortie;
     private static Semaphore entree;
     //Heda houwa
-    private int nbrVoitures = 20;
     private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
     private int nbrParkCells;
 
@@ -403,12 +402,6 @@ public class MainWindow extends JFrame {
         jp.add(jl);
     }
 
-
-    /**
-     *
-     */
-    private Thread thread;
-
     private void addParkRow(int row) {
         for (int j = 1; j <= parkingSize; j++) {
 
@@ -422,7 +415,6 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private static final int parkingSize = 22;//divisor of 550
 
     private void startTest() {
         launchVoitures();
@@ -443,7 +435,6 @@ public class MainWindow extends JFrame {
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
     // dont le nbr de cars = un attribut de la classe Mainwindow
     void initVoituresList() {
-        nbrVoitures = 400;
         for (int i = 0; i < nbrVoitures; i++) {
             GraphicCar graphicCar = new GraphicCar();
             listVoitures.add(graphicCar);
@@ -459,4 +450,8 @@ public class MainWindow extends JFrame {
             new SeGarer(parking, listVoitures.get(i)).start();
         }
     }
+
+
+    private static final int parkingSize = 7;//divisor of 550
+    private int nbrVoitures = 20;
 }
