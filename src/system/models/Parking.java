@@ -85,14 +85,13 @@ public class Parking {
             path.add(departParkingCell);
             startRowIndex++;
         }
-
-
         //on parcoure les lignes jusqu'a celle qui contient la place vide
         for (int rowIndex = startRowIndex; rowIndex < targetRow - 1; rowIndex++) {
             //si la ligne juste en dessous de mon pointeur n'est pas du type route
             //on enregistre les cases parcourus (elles seront notre chemin versla colone dont
             // on utilisera pour descendre a la ligne avant celle qui contient notre target)
 
+            //   if (departParkingCell.getColumn() > getLastRoadColumn())
             while (columnIndex <= size - 1 || found) {
                 path.add(cells[rowIndex][columnIndex]);
                 if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD ||
@@ -101,11 +100,20 @@ public class Parking {
                     found = true;
                     break;
                 }
-                if (departParkingCell.getColumn() > getLastRoadColumn())
                     columnIndex++;
-                else
-                    columnIndex--;
             }
+           /* else {
+                while (columnIndex > getLastRoadColumn() || found) {
+                    path.add(cells[rowIndex][columnIndex]);
+                    if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD ||
+                            (cells[rowIndex + 1][columnIndex].getType() != CellType.ROAD &&
+                                    cells[rowIndex + 1][columnIndex].getState() == CellState.LIBRE)) {
+                        found = true;
+                        break;
+                    }
+                    columnIndex--;
+                }
+            }*/
             path.add(cells[rowIndex][columnIndex]);
         }
         //on parcoure la ligne audessus de la ligne target jusqu'a a la colonne target

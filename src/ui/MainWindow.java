@@ -435,19 +435,18 @@ public class MainWindow extends JFrame {
 
         }
     }
-    void initHandi(int n){
+
+    private static final int parkingSize = 7;//divisor of 550
+
+    void initHandi(int n) {
         for (int i = 0; i < n; i++) {
             GraphicCar graphicCar = new GraphicCar(ClientType.HANDICAP);
         }
     }
-    void initNormaux(int n){
+
+    void initNormaux(int n) {
         for (int i = 0; i < n; i++) {
             GraphicCar graphicCar = new GraphicCar(ClientType.NORMAL);
-        }
-    }
-    void initAbo(int n){
-        for (int i = 0; i < n; i++) {
-            GraphicCar graphicCar = new GraphicCar(ClientType.ABONNE);
         }
     }
 
@@ -461,7 +460,12 @@ public class MainWindow extends JFrame {
     }
 
     private int nbrVoitures = 20;
-    private static final int parkingSize = 6;//divisor of 550
+
+    void initAbo(int n) {
+        for (int i = 0; i < n; i++) {
+            GraphicCar graphicCar = new GraphicCar(ClientType.ABONNE);
+        }
+    }
 
     void initSemaphores() {
         vide = new Semaphore(nbrParkCells, "Vide");
