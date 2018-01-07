@@ -1,12 +1,13 @@
-package system;
+package system.gestion_de_concurrence;
 
+import system.enums.ClientType;
 import system.models.Parking;
 import ui.GraphicCar;
 import ui.MainWindow;
 
 import java.util.Random;
 
-public class SeGarer extends Thread {
+public class SeGarer extends Thread implements Comparable {
     private Parking parking;
 
     public Parking getParking() {
@@ -44,7 +45,7 @@ public class SeGarer extends Thread {
     public synchronized void assena() {
         try {
 
-            long waiting = new Random().nextInt(5000) + 5000;
+            long waiting = new Random().nextInt(5000) + 9000;
 //            long waiting = 2000;
 
             System.out.println("Waiting");
@@ -71,5 +72,25 @@ public class SeGarer extends Thread {
 //        parking.sortir(this.voiture);
         MainWindow.getSortie().V();
         MainWindow.getVide().V();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        SeGarer other = (SeGarer) o;
+        if (this.voiture.getClient().getType() == other.getVoiture().getClient().getType())
+            return 0;
+        if (this.voiture.getClient().getType() == ClientType.HANDICAP &&
+                other.getVoiture().getClient().getType() != ClientType.HANDICAP)
+            return 1;
+        if (this.voiture.getClient().getType() != ClientType.HANDICAP &&
+                other.getVoiture().getClient().getType() == ClientType.HANDICAP)
+            return -1;
+        if (this.voiture.getClient().getType() == ClientType.ABONNE &&
+                other.getVoiture().getClient().getType() == ClientType.NORMAL)
+            return 1;
+        if (this.voiture.getClient().getType() == ClientType.NORMAL &&
+                other.getVoiture().getClient().getType() != ClientType.NORMAL)
+            return -1;
+        else return 0;
     }
 }

@@ -1,4 +1,4 @@
-package system;
+package system.gestion_de_concurrence;
 
 public class Semaphore {
     private int n;

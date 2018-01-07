@@ -4,7 +4,8 @@ public class Car {
     private int matricule;
     private Client client;
 
-    public Car() {
+    Car() {
+        client = new Client();
     }
 
     public int getMatricule() {

@@ -1,14 +1,14 @@
 package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
-import system.SeGarer;
-import system.Semaphore;
 import system.enums.ClientType;
+import system.gestion_de_concurrence.Ordonnanceur;
+import system.gestion_de_concurrence.SeGarer;
+import system.gestion_de_concurrence.Semaphore;
 import system.models.Parking;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 import java.util.LinkedList;
 
 import static system.enums.CellType.PARK;
@@ -32,6 +32,7 @@ public class MainWindow extends JFrame {
     //Heda houwa
     private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
     private int nbrParkCells;
+    private static final int parkingSize = 10;//divisor of 550
 
     public static Semaphore getVide() {
         return vide;
@@ -393,16 +394,6 @@ public class MainWindow extends JFrame {
         parking.addCellToParking(pan, row, column, ROAD);
     }
 
-    private void DisplayImage(JPanel jp) {
-        JLabel jl = new JLabel();
-        URL rr = getClass().getClassLoader().getResource("images/automobile.png");
-        System.out.println(rr.getPath());
-        Icon imf = new javax.swing.ImageIcon(rr);
-        System.out.println("" + imf != null);
-        jl.setIcon(imf);
-        jp.add(jl);
-    }
-
     private void addParkRow(int row) {
         for (int j = 1; j <= parkingSize; j++) {
 
@@ -425,49 +416,51 @@ public class MainWindow extends JFrame {
     private void stopTest() {
     }
 
+    private Ordonnanceur ordonnanceur;
+    private int nbrVoitures = 400;
 
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
     // dont le nbr de cars = un attribut de la classe Mainwindow
-    void initVoituresList() {
-        for (int i = 0; i < nbrVoitures; i++) {
-            GraphicCar graphicCar = new GraphicCar();
-            listVoitures.add(graphicCar);
+    private void initVoituresList() {
+        initNormaux(20);
+        initHandi(13);
+        initAbo(5);
+        this.ordonnanceur = new Ordonnanceur(setThreads(listVoitures));
+    }
 
+    private LinkedList<SeGarer> setThreads(LinkedList<GraphicCar> listVoitures) {
+        LinkedList<SeGarer> liste = new LinkedList<>();
+        for (GraphicCar car : listVoitures) {
+            liste.add(new SeGarer(parking, car));
+        }
+        return liste;
+    }
+
+    private void initHandi(int n) {
+        for (int i = 0; i < n; i++) {
+            listVoitures.add(new GraphicCar(ClientType.HANDICAP));
         }
     }
 
-    private static final int parkingSize = 7;//divisor of 550
-
-    void initHandi(int n) {
+    private void initAbo(int n) {
         for (int i = 0; i < n; i++) {
-            GraphicCar graphicCar = new GraphicCar(ClientType.HANDICAP);
+            listVoitures.add(new GraphicCar(ClientType.ABONNE));
         }
     }
 
-    void initNormaux(int n) {
+    private void initNormaux(int n) {
         for (int i = 0; i < n; i++) {
-            GraphicCar graphicCar = new GraphicCar(ClientType.NORMAL);
+            listVoitures.add(new GraphicCar(ClientType.NORMAL));
         }
     }
 
     // TODO: 1/5/2018 lancer les threads des voitures contenues dans la liste
     //initialised in the previous method
-    void launchVoitures() {
-        for (int i = 0; i < nbrVoitures; i++) {
-//            parking.prendrePlace(listVoitures.get(i));
-            new SeGarer(parking, listVoitures.get(i)).start();
-        }
+    private void launchVoitures() {
+        ordonnanceur.startAll();
     }
 
-    private int nbrVoitures = 20;
-
-    void initAbo(int n) {
-        for (int i = 0; i < n; i++) {
-            GraphicCar graphicCar = new GraphicCar(ClientType.ABONNE);
-        }
-    }
-
-    void initSemaphores() {
+    private void initSemaphores() {
         vide = new Semaphore(nbrParkCells, "Vide");
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");

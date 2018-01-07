@@ -7,7 +7,6 @@ import system.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 
 public class GraphicCar extends MovingCar {
@@ -33,29 +32,34 @@ public class GraphicCar extends MovingCar {
 
     private String image;
     private JLabel label;
-    private ClientType clientType;
-    public GraphicCar(ClientType clientType){
-        this.clientType=clientType;
-        switch (clientType){
-            case NORMAL:image=vehicules[5];
-                setupIconSize(1,1);
+
+    GraphicCar(ClientType clientType) {
+        super();
+        this.getClient().setType(clientType);
+        switch (clientType) {
+            case NORMAL:
+                image = vehicules[5];
+                setupIconSize(1, 1);
                 break;
-            case HANDICAP:image=vehicules[6];
-                setupIconSize(1,1);
+            case HANDICAP:
+                image = vehicules[6];
+                setupIconSize(1, 1);
                 break;
-            case ABONNE:image=vehicules[7];
+            case ABONNE:
+                image = vehicules[7];
         }
     }
-    public GraphicCar() {
+/*
+    GraphicCar() {
         image = getRandomVehicle();
         setupIconSize(1, 1);
     }
 
-    public String getRandomVehicle() {
+    private String getRandomVehicle() {
         int i = new Random().nextInt(vehicules.length);
         //   System.out.println(vehicules[i]);
         return vehicules[i];
-    }
+    }*/
 
     public void setupIconSize(int width, int height) {
         label = new JLabel();

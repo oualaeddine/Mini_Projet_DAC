@@ -11,7 +11,8 @@ public class MovingCar extends Car implements Moving {
     private Position position;
     private Direction direction;
 
-    public MovingCar() {
+    protected MovingCar() {
+        super();
         this.position = new Position();
     }
 

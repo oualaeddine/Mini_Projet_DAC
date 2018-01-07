@@ -36,7 +36,7 @@ public class Parking {
         int y = car.getPosition().getColumn();
         int cellHeight = cells[x - 1][y - 1].getCellJPanel().getHeight();
         int cellWidth = cells[x - 1][y - 1].getCellJPanel().getHeight();
-
+        if (x == size && y == size) return;
         GroupLayout testLayout = new GroupLayout(cells[x - 1][y - 1].getCellJPanel());
         cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
 //        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
@@ -86,24 +86,15 @@ public class Parking {
             startRowIndex++;
         }
         //on parcoure les lignes jusqu'a celle qui contient la place vide
-        for (int rowIndex = startRowIndex; rowIndex < targetRow - 1; rowIndex++) {
+        int stop = targetRow - 1;
+        int r = startRowIndex;
+        for (int rowIndex = startRowIndex; rowIndex < stop; rowIndex++) {
             //si la ligne juste en dessous de mon pointeur n'est pas du type route
             //on enregistre les cases parcourus (elles seront notre chemin versla colone dont
             // on utilisera pour descendre a la ligne avant celle qui contient notre target)
 
-            //   if (departParkingCell.getColumn() > getLastRoadColumn())
-            while (columnIndex <= size - 1 || found) {
-                path.add(cells[rowIndex][columnIndex]);
-                if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD ||
-                        (cells[rowIndex + 1][columnIndex].getType() != CellType.ROAD &&
-                                cells[rowIndex + 1][columnIndex].getState() == CellState.LIBRE)) {
-                    found = true;
-                    break;
-                }
-                    columnIndex++;
-            }
-           /* else {
-                while (columnIndex > getLastRoadColumn() || found) {
+            if (departParkingCell.getColumn() < getLastRoadColumn()) {
+                while (columnIndex <= size - 1 || found) {
                     path.add(cells[rowIndex][columnIndex]);
                     if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD ||
                             (cells[rowIndex + 1][columnIndex].getType() != CellType.ROAD &&
@@ -111,11 +102,26 @@ public class Parking {
                         found = true;
                         break;
                     }
+                    columnIndex++;
+                }
+            } else {
+                while (columnIndex + 1 > getLastRoadColumn() || found) {
+                    path.add(cells[rowIndex][columnIndex]);
+                    if (cells[rowIndex + 1][columnIndex].getType() == CellType.ROAD) {
+                        found = true;
+                        break;
+                    }
                     columnIndex--;
                 }
-            }*/
+            }
             path.add(cells[rowIndex][columnIndex]);
+            r = rowIndex;
         }
+        if (stop == size - 1) if (cells[size - 1][0].getType() == CellType.ROAD) {
+            path.add(cells[r + 1][columnIndex]);
+        }
+
+
         //on parcoure la ligne audessus de la ligne target jusqu'a a la colonne target
         while (columnIndex != targetColumn) {
             //si la colonne target est a gauche du pointeur on decremente sinn on incremente
@@ -123,7 +129,9 @@ public class Parking {
                 columnIndex++;
             else
                 columnIndex--;
-            path.add(cells[targetRow - 2][columnIndex - 1]);
+            if (stop == size - 1) if (cells[size - 1][0].getType() == CellType.ROAD) {
+                path.add(cells[targetRow - 1][columnIndex - 1]);
+            } else path.add(cells[targetRow - 2][columnIndex - 1]);
         }
         //on ajoute la case target
         path.add(cells[targetRow - 1][targetColumn - 1]);
@@ -132,9 +140,10 @@ public class Parking {
 
     private int getLastRoadColumn() {
         int j = size - 1;
-        while (cells[2][j].getType() == CellType.PARK) {
+        while (cells[1][j].getType() == CellType.PARK) {
             j--;
         }
+        System.out.println("lestColumnRoad = " + j);
         return j;
     }
 
@@ -168,7 +177,7 @@ public class Parking {
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
 //                        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
                         try {
-                            this.wait(1000);
+                            this.wait(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -220,7 +229,7 @@ public class Parking {
             voiture.setPosition(cell.getPosition());
             setCar(voiture);
             try {
-                context.wait(100);
+                context.wait(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
