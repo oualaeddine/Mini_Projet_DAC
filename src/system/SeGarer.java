@@ -47,6 +47,7 @@ public class SeGarer extends Thread {
         MainWindow.getEntree().V();
         //yroh ygari w yebqa ltem pendant X
         assena();
+
         MainWindow.getSortie().P();
         //Sortir et libérer la place
         ekhroj();

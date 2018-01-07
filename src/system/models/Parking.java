@@ -142,6 +142,7 @@ public class Parking {
                         occupy(freePlace);
 
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
+                        cells[freePlace.getRow()-1][freePlace.getColumn()-1].setState(CellState.OCCUPEE);
                         try {
                             this.wait(700);
                         } catch (InterruptedException e) {
