@@ -40,7 +40,7 @@ public class GraphicCar extends MovingCar {
 
     public String getRandomVehicle() {
         int i = new Random().nextInt(vehicules.length);
-        System.out.println(vehicules[i]);
+        //   System.out.println(vehicules[i]);
         return vehicules[i];
     }
 

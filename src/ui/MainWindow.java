@@ -425,8 +425,6 @@ public class MainWindow extends JFrame {
     }
 
 
-    private static final int parkingSize = 6;//divisor of 550
-
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
     // dont le nbr de cars = un attribut de la classe Mainwindow
     void initVoituresList() {
@@ -447,6 +445,7 @@ public class MainWindow extends JFrame {
     }
 
     private int nbrVoitures = 20;
+    private static final int parkingSize = 6;//divisor of 550
 
     void initSemaphores() {
         vide = new Semaphore(/*nbrParkCells*/2, "Vide");
