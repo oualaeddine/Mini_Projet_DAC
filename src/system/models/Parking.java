@@ -93,10 +93,10 @@ public class Parking {
                     found = true;
                     break;
                 }
-                if (departParkingCell.getColumn() < size - 6)
+                // if (departParkingCell.getColumn() < size - 6)
                     columnIndex++;
-                else
-                    columnIndex--;
+                //    else
+                //   columnIndex--;
             }
             path.add(cells[rowIndex][columnIndex]);
         }
