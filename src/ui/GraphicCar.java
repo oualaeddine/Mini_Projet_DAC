@@ -36,6 +36,15 @@ public class GraphicCar extends MovingCar {
     private ClientType clientType;
     public GraphicCar(ClientType clientType){
         this.clientType=clientType;
+        switch (clientType){
+            case NORMAL:image=vehicules[5];
+                setupIconSize(1,1);
+                break;
+            case HANDICAP:image=vehicules[6];
+                setupIconSize(1,1);
+                break;
+            case ABONNE:image=vehicules[7];
+        }
     }
     public GraphicCar() {
         image = getRandomVehicle();
