@@ -31,7 +31,7 @@ public class Parking {
     }
 
 
-    public void setCar(GraphicCar car) {
+    private void setCar(GraphicCar car) {
         int x = car.getPosition().getRow();
         int y = car.getPosition().getColumn();
         int cellHeight = cells[x - 1][y - 1].getCellJPanel().getHeight();
@@ -58,7 +58,7 @@ public class Parking {
         );
     }
 
-    public void setDefault(int x, int y) {
+    private void setDefault(int x, int y) {
         // cells[x - 1][y - 1].setState(CellState.LIBRE);
         cells[x - 1][y - 1].getCellJPanel().removeAll();
         cells[x - 1][y - 1].getCellJPanel().repaint();
@@ -71,7 +71,7 @@ public class Parking {
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.gray);
     }
 
-    public LinkedList<ParkingCell> findPath(ParkingCell targetParkingCell, ParkingCell departParkingCell) {
+    private LinkedList<ParkingCell> findPath(ParkingCell targetParkingCell, ParkingCell departParkingCell) {
         LinkedList<ParkingCell> path = new LinkedList<>();
         int columnIndex = departParkingCell.getColumn() - 1;
         int startRowIndex = departParkingCell.getRow() - 1;
@@ -80,6 +80,12 @@ public class Parking {
         //path.add(cells[1][0]);
         /*path.add(cells[1][1]);*/
         boolean found = false;
+
+
+        if (startRowIndex == size - 1) {
+            path.add(departParkingCell);
+            startRowIndex++;
+        }
         //on parcoure les lignes jusqu'a celle qui contient la place vide
         for (int rowIndex = startRowIndex; rowIndex < targetRow - 1; rowIndex++) {
             //si la ligne juste en dessous de mon pointeur n'est pas du type route
@@ -115,7 +121,7 @@ public class Parking {
     }
 
 
-    public ParkingCell findFreePlace() {
+    private ParkingCell findFreePlace() {
         for (int i = 0; i <= size - 1; i++) {
             for (int j = 0; j <= size - 1; j++) {
                 //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
@@ -181,7 +187,7 @@ public class Parking {
     }
 
 
-    public void occupy(ParkingCell freePlace) {
+    private void occupy(ParkingCell freePlace) {
         System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getCellJPanel().setBackground(Color.red);
