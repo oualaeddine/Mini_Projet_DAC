@@ -39,7 +39,7 @@ public class Parking {
 
         GroupLayout testLayout = new GroupLayout(cells[x - 1][y - 1].getCellJPanel());
         cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
-        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
+//        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
         car.setupIconSize(cellWidth, cellHeight);
         JLabel jLabel15 = car.getLabel();
         testLayout.setHorizontalGroup(
@@ -142,7 +142,7 @@ public class Parking {
                         departParkingCell.setColumn(1);
                         occupy(freePlace);
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
-                        //cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
+//                        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
                         try {
                             this.wait(1000);
                         } catch (InterruptedException e) {
