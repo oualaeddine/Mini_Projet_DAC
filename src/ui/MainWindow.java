@@ -137,7 +137,7 @@ public class MainWindow extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        initSemaphores();
+
         jPanel1 = new javax.swing.JPanel();
         parking_box = new javax.swing.JPanel();
         parkingPanel = new javax.swing.JPanel();
@@ -365,6 +365,7 @@ public class MainWindow extends JFrame {
             else
                 addRoadRow(i);
         }
+        initSemaphores();
     }
 
 
