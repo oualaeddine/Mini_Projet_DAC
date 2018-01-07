@@ -60,10 +60,11 @@ public class Parking {
 
     public void setDefault(int x, int y) {
         // cells[x - 1][y - 1].setState(CellState.LIBRE);
-
         cells[x - 1][y - 1].getCellJPanel().removeAll();
         cells[x - 1][y - 1].getCellJPanel().repaint();
         cells[x - 1][y - 1].getCellJPanel().updateUI();
+        if (cells[x - 1][y - 1].getState() == CellState.LIBRE)
+            cells[x - 1][y - 1].getCellJPanel().setBackground(Color.GREEN);
         if (cells[x - 1][y - 1].getType() == CellType.ROAD)
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.decode("#303030"));
         else
@@ -176,12 +177,15 @@ public class Parking {
     private void liberer(ParkingCell cell) {
         System.out.println("liberer = [" + cell + "]time : " + System.currentTimeMillis());
         cells[cell.getRow() - 1][cell.getColumn() - 1].setState(CellState.LIBRE);
+        cells[cell.getRow() - 1][cell.getColumn() - 1].getCellJPanel().setBackground(Color.green);
     }
 
 
     public void occupy(ParkingCell freePlace) {
         System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
+        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getCellJPanel().setBackground(Color.red);
+
     }
 
     private void deplacerVoitureSurPath(ParkingCell departParkingCell, ParkingCell destinationParkingCell, GraphicCar voiture, Runnable context) {

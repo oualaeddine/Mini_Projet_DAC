@@ -4,8 +4,6 @@ import system.models.Parking;
 import ui.GraphicCar;
 import ui.MainWindow;
 
-import java.util.Random;
-
 public class SeGarer extends Thread {
     private Parking parking;
     private GraphicCar voiture;
@@ -34,7 +32,7 @@ public class SeGarer extends Thread {
 
     public synchronized void assena() {
         try {
-            long waiting = new Random().nextInt(5000) + 5000;
+            long waiting = /*new Random().nextInt(5000) + */2000;
             System.out.println("Waiting");
             this.wait(waiting);
         } catch (InterruptedException e) {
