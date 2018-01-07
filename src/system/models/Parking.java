@@ -166,16 +166,11 @@ public class Parking {
             @Override
             public void run() {
                 synchronized (this) {
-                    cells[voiture.getPosition().getRow()][voiture.getPosition().getColumn() - 1].setState(CellState.LIBRE);
+                    cells[voiture.getPosition().getRow()][voiture.getPosition().getColumn() ].setState(CellState.LIBRE);
                     ParkingCell departParkingCell = new ParkingCell();
                     departParkingCell.setRow(voiture.getPosition().getRow());
                     departParkingCell.setColumn(voiture.getPosition().getColumn());
                     deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
-                    try {
-                        this.wait(700);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });

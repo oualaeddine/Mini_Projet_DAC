@@ -16,15 +16,15 @@ public class SeGarer extends Thread {
     }
 
     public void trouver() {
-        synchronized (this) {
-            try {
-                this.wait(500);
-                parking.prendrePlace(this.voiture);
+//        synchronized (this) {
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+            parking.prendrePlace(this.voiture);
+//                this.wait(500);
+
+//        }
+    }
+    public void ekhroj(){
+        parking.sortir(this.voiture);
     }
 
 
@@ -49,7 +49,8 @@ public class SeGarer extends Thread {
         assena();
         MainWindow.getSortie().P();
         //Sortir et libérer la place
-        parking.sortir(this.voiture);
+        ekhroj();
+//        parking.sortir(this.voiture);
         MainWindow.getSortie().V();
         MainWindow.getVide().V();
     }
