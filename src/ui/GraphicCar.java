@@ -1,5 +1,6 @@
 package ui;
 
+import system.enums.ClientType;
 import system.enums.Direction;
 import system.models.MovingCar;
 import system.utils.ImageUtils;
@@ -32,7 +33,10 @@ public class GraphicCar extends MovingCar {
 
     private String image;
     private JLabel label;
-
+    private ClientType clientType;
+    public GraphicCar(ClientType clientType){
+        this.clientType=clientType;
+    }
     public GraphicCar() {
         image = getRandomVehicle();
         setupIconSize(1, 1);

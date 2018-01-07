@@ -3,6 +3,7 @@ package ui;
 import com.bulenkov.darcula.DarculaLaf;
 import system.SeGarer;
 import system.Semaphore;
+import system.enums.ClientType;
 import system.models.Parking;
 
 import javax.swing.*;
@@ -434,6 +435,21 @@ public class MainWindow extends JFrame {
 
         }
     }
+    void initHandi(int n){
+        for (int i = 0; i < n; i++) {
+            GraphicCar graphicCar = new GraphicCar(ClientType.HANDICAP);
+        }
+    }
+    void initNormaux(int n){
+        for (int i = 0; i < n; i++) {
+            GraphicCar graphicCar = new GraphicCar(ClientType.NORMAL);
+        }
+    }
+    void initAbo(int n){
+        for (int i = 0; i < n; i++) {
+            GraphicCar graphicCar = new GraphicCar(ClientType.ABONNE);
+        }
+    }
 
     // TODO: 1/5/2018 lancer les threads des voitures contenues dans la liste
     //initialised in the previous method
@@ -448,7 +464,7 @@ public class MainWindow extends JFrame {
     private static final int parkingSize = 6;//divisor of 550
 
     void initSemaphores() {
-        vide = new Semaphore(/*nbrParkCells*/2, "Vide");
+        vide = new Semaphore(nbrParkCells, "Vide");
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
         borne = new Semaphore(1, "Borne de paiement");
