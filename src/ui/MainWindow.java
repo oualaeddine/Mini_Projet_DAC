@@ -29,8 +29,9 @@ public class MainWindow extends JFrame {
     private static Semaphore sortie;
     private static Semaphore entree;
     //Heda houwa
-    private int nbrVoitures=20;
+    private int nbrVoitures = 20;
     private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
+    private int nbrParkCells;
 
     public static Semaphore getVide() {
         return vide;
@@ -356,6 +357,7 @@ public class MainWindow extends JFrame {
 
     private void customizeComponents() {
         parking = new Parking(parkingSize);
+        nbrParkCells = 0;
         initVoituresList();
         for (int i = 1; i <= parkingSize; i++) {
             if (isParkRow(i))
@@ -380,6 +382,7 @@ public class MainWindow extends JFrame {
         pan.setBackground(Color.gray);
         parkingPanel.add(pan);
         parking.addCellToParking(pan, row, column, PARK);
+        nbrParkCells++;
     }
 
     private void addRoadCell(int row, int column) {
@@ -430,7 +433,7 @@ public class MainWindow extends JFrame {
 
 
     void initSemaphores() {
-        vide = new Semaphore(parkingSize, "Vide");
+        vide = new Semaphore(nbrParkCells, "Vide");
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
         borne = new Semaphore(1, "Borne de paiement");
@@ -452,7 +455,7 @@ public class MainWindow extends JFrame {
     void launchVoitures() {
         for (int i = 0; i < nbrVoitures; i++) {
 //            parking.prendrePlace(listVoitures.get(i));
-            new SeGarer(parking,listVoitures.get(i)).start();
+            new SeGarer(parking, listVoitures.get(i)).start();
         }
     }
 }
