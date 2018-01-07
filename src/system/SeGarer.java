@@ -8,6 +8,15 @@ import java.util.Random;
 
 public class SeGarer extends Thread {
     private Parking parking;
+
+    public Parking getParking() {
+        return parking;
+    }
+
+    public GraphicCar getVoiture() {
+        return voiture;
+    }
+
     private GraphicCar voiture;
 
     public SeGarer(Parking parking, GraphicCar voiture) {
