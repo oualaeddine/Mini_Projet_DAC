@@ -94,7 +94,7 @@ public class Parking {
                     break;
                 }
                 // if (departParkingCell.getColumn() < size - 6)
-                    columnIndex++;
+                columnIndex++;
                 //    else
                 //   columnIndex--;
             }
@@ -127,11 +127,6 @@ public class Parking {
         return null;
     }
 
-
-    public void occupy(ParkingCell freePlace) {
-        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
-
-    }
 
     public void prendrePlace(GraphicCar testCar) {
         Thread thread = new Thread(new Runnable() {
@@ -166,8 +161,8 @@ public class Parking {
             @Override
             public void run() {
                 synchronized (this) {
-                    cells[voiture.getPosition().getRow()][voiture.getPosition().getColumn() ].setState(CellState.LIBRE);
                     ParkingCell departParkingCell = new ParkingCell();
+                    liberer(departParkingCell);
                     departParkingCell.setRow(voiture.getPosition().getRow());
                     departParkingCell.setColumn(voiture.getPosition().getColumn());
                     deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
@@ -175,6 +170,17 @@ public class Parking {
             }
         });
         thread.start();
+    }
+
+    private void liberer(ParkingCell cell) {
+        System.out.println("liberer = [" + cell + "]");
+        cells[cell.getRow()][cell.getColumn()].setState(CellState.LIBRE);
+    }
+
+
+    public void occupy(ParkingCell freePlace) {
+        System.out.println("occupy = [" + freePlace + "]");
+        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
     }
 
     private void deplacerVoitureSurPath(ParkingCell departParkingCell, ParkingCell destinationParkingCell, GraphicCar voiture, Runnable context) {

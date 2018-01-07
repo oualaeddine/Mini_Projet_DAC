@@ -426,7 +426,7 @@ public class MainWindow extends JFrame {
 
 
     void initSemaphores() {
-        vide = new Semaphore(nbrParkCells, "Vide");
+        vide = new Semaphore(/*nbrParkCells*/1, "Vide");
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
         borne = new Semaphore(1, "Borne de paiement");
