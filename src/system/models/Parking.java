@@ -11,25 +11,6 @@ import java.util.LinkedList;
 public class Parking {
     private final int size;
     private final ParkingCell[][] cells;
-    private String[] vehicules = {
-            "/images/buses.png",
-            "/images/by1.png",
-            "/images/by2.png",
-            "/images/by3.png",
-            "/images/by4.png",
-            "/images/car1.png",
-            "/images/car2.png",
-            "/images/car3.png",
-            "/images/car4.png",
-            "/images/other1.png",
-            "/images/other2.png",
-            "/images/other3.png",
-            "/images/other5.png",
-            "/images/truck1.png",
-            "/images/truck2.png",
-            "/images/truck3.png",
-            "/images/truck4.png",
-    };
     private ParkingCell sortie;
 
     public Parking(int size) {
@@ -112,7 +93,10 @@ public class Parking {
                     found = true;
                     break;
                 }
-                columnIndex++;
+                if (departParkingCell.getColumn() < size - 6)
+                    columnIndex++;
+                else
+                    columnIndex--;
             }
             path.add(cells[rowIndex][columnIndex]);
         }
@@ -134,7 +118,7 @@ public class Parking {
     public ParkingCell findFreePlace() {
         for (int i = 0; i <= size - 1; i++) {
             for (int j = 0; j <= size - 1; j++) {
-                System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
+                //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
                 if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE)
                     return cells[i][j];
             }
@@ -181,16 +165,12 @@ public class Parking {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 synchronized (this) {
-                    ParkingCell freePlace = sortie;
-
-                        cells[voiture.getPosition().getRow()][voiture.getPosition().getColumn()].setState(CellState.LIBRE);
-                        ParkingCell departParkingCell = new ParkingCell();
-                        departParkingCell.setRow(voiture.getPosition().getRow());
-                        departParkingCell.setColumn(voiture.getPosition().getColumn());
-                        deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
-
+                    cells[voiture.getPosition().getRow()][voiture.getPosition().getColumn() - 1].setState(CellState.LIBRE);
+                    ParkingCell departParkingCell = new ParkingCell();
+                    departParkingCell.setRow(voiture.getPosition().getRow());
+                    departParkingCell.setColumn(voiture.getPosition().getColumn());
+                    deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
                     try {
                         this.wait(700);
                     } catch (InterruptedException e) {
@@ -198,7 +178,6 @@ public class Parking {
                     }
                 }
             }
-
         });
         thread.start();
     }
