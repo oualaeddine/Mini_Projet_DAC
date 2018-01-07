@@ -175,7 +175,7 @@ public class Parking {
 
     private void liberer(ParkingCell cell) {
         System.out.println("liberer = [" + cell + "]");
-        cells[cell.getRow()][cell.getColumn()].setState(CellState.LIBRE);
+        cells[cell.getRow() - 1][cell.getColumn() - 1].setState(CellState.LIBRE);
     }
 
 

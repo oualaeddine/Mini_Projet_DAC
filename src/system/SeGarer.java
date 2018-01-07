@@ -17,7 +17,6 @@ public class SeGarer extends Thread {
 
     public void trouver() {
         synchronized (this) {
-
             parking.prendrePlace(this.voiture);
             try {
                 this.wait(500);

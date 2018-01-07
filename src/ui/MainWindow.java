@@ -446,7 +446,7 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private int nbrVoitures = 5;
+    private int nbrVoitures = 20;
 
     void initSemaphores() {
         vide = new Semaphore(/*nbrParkCells*/2, "Vide");
