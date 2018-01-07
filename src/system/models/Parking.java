@@ -139,7 +139,7 @@ public class Parking {
                     return cells[i][j];
             }
         }
-        System.out.println("Parking.findFreePlace");
+        // System.out.println("Parking.findFreePlace");
         return null;
     }
 
@@ -163,7 +163,7 @@ public class Parking {
                         departParkingCell.setColumn(1);
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
                         try {
-                            this.wait(500);
+                            this.wait(700);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -191,8 +191,14 @@ public class Parking {
                         departParkingCell.setColumn(voiture.getPosition().getColumn());
                         deplacerVoitureSurPath(departParkingCell, sortie, voiture, this);
 
+                    try {
+                        this.wait(700);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
         });
         thread.start();
     }
@@ -205,7 +211,7 @@ public class Parking {
             voiture.setPosition(cell.getPosition());
             setCar(voiture);
             try {
-                context.wait(50);
+                context.wait(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
