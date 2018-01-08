@@ -32,9 +32,10 @@ public class Ordonnanceur {
     }
 
     public static void notifyLiDalethom() {
-        for (SeGarer seGarer : getFileDAttente()) {
+  /*      for (SeGarer seGarer : getFileDAttente()) {
             seGarer.notify();
-        }
+        }*/
+        getFileDAttente().pop().notify();
     }
 
     public void startAll() {

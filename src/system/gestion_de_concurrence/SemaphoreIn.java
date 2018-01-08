@@ -13,11 +13,13 @@ public class SemaphoreIn extends Semaphore {
     public void P(SeGarer sg) {
         n--;
         if (n < 0) {
-            try {
-                Ordonnanceur.addVoiture(sg);
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            synchronized (this) {
+                try {
+                    Ordonnanceur.addVoiture(sg);
+                    this.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

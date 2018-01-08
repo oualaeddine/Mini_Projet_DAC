@@ -6,6 +6,7 @@ import system.enums.ClientType;
 import system.gestion_de_concurrence.Ordonnanceur;
 import system.gestion_de_concurrence.SeGarer;
 import system.gestion_de_concurrence.Semaphore;
+import system.gestion_de_concurrence.SemaphoreIn;
 import system.models.Parking;
 
 import javax.swing.*;
@@ -473,8 +474,8 @@ public class MainWindow extends JFrame {
     }
 
     private void initSemaphores() {
-        videHandi = new Semaphore(nbrHandiParkCells, "VideHandi");
-        videNormal = new Semaphore(nbrParkCells,"VideNormal");
+        videHandi = new SemaphoreIn(nbrHandiParkCells, "VideHandi");
+        videNormal = new SemaphoreIn(nbrParkCells, "VideNormal");
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
         borne = new Semaphore(1, "Borne de paiement");
