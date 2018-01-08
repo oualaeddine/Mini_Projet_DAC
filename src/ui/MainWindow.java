@@ -34,6 +34,7 @@ public class MainWindow extends JFrame {
     private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
     private int nbrParkCells;
     private static final int parkingSize = 10;//divisor of 550
+    private int nbrHandiParkCells;
 
     public static Semaphore getVide() {
         return vide;
@@ -393,7 +394,7 @@ public class MainWindow extends JFrame {
         pan.setBackground(Color.pink);
         parkingPanel.add(pan);
         parking.addCellToParking(pan, row, column, CellType.HANDI);
-        nbrParkCells++;
+        nbrHandiParkCells++;
     }
 
     private void addRoadCell(int row, int column) {
@@ -430,8 +431,8 @@ public class MainWindow extends JFrame {
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
     // dont le nbr de cars = un attribut de la classe Mainwindow
     private void initVoituresList() {
-        initNormaux(100);
-        initHandi(15);
+        initNormaux(20);
+        initHandi(40);
         initAbo(20);
         this.ordonnanceur = new Ordonnanceur(setThreads(listVoitures));
     }
