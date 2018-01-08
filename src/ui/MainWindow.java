@@ -14,15 +14,6 @@ import java.util.LinkedList;
 import static system.enums.CellType.PARK;
 import static system.enums.CellType.ROAD;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * @author berre
- */
 public class MainWindow extends JFrame {
 
     private static final int parkingSize = 9;//divisor of 550
@@ -395,7 +386,6 @@ public class MainWindow extends JFrame {
     }
 
     private void initVoituresList() {
-
         int nbrVoituresNrml = 170;
         int nbrVoituresSpcl = 500;
         int nbrVoituresAbo = 200;
