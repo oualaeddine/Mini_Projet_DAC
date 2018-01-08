@@ -94,6 +94,10 @@ public class Parking {
             path.add(departParkingCell);
             startRowIndex++;
         }
+        if (startRowIndex == size - 1 && columnIndex == size - 1) {
+            path.add(cells[size - 2][size - 1]);
+            return path;
+        }
         //on parcoure les lignes jusqu'a celle qui contient la place vide
         int stop = targetRow - 1;
         int r = startRowIndex;
@@ -129,8 +133,6 @@ public class Parking {
         if (stop == size - 1) if (cells[size - 1][0].getType() == CellType.ROAD) {
             path.add(cells[r + 1][columnIndex]);
         }
-
-
         //on parcoure la ligne audessus de la ligne target jusqu'a a la colonne target
         while (columnIndex != targetColumn) {
             //si la colonne target est a gauche du pointeur on decremente sinn on incremente
@@ -152,7 +154,7 @@ public class Parking {
         while (cells[1][j].getType() == CellType.PARK) {
             j--;
         }
-        System.out.println("lestColumnRoad = " + j);
+        //System.out.println("lestColumnRoad = " + j);
         return j;
     }
 
@@ -220,17 +222,17 @@ public class Parking {
     }
 
     private void liberer(ParkingCell cell) {
-        System.out.println("liberer = [" + cell + "]time : " + System.currentTimeMillis());
+        //System.out.println("liberer = [" + cell + "]time : " + System.currentTimeMillis());
         cells[cell.getRow() - 1][cell.getColumn() - 1].setState(CellState.LIBRE);
         cells[cell.getRow() - 1][cell.getColumn() - 1].getCellJPanel().setBackground(Color.green);
+        setDefault(cell.getRow(), cell.getColumn());
     }
 
 
     private void occupy(ParkingCell freePlace) {
-        System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
+        //System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getCellJPanel().setBackground(Color.red);
-
     }
 
     private void deplacerVoitureSurPath(ParkingCell departParkingCell, ParkingCell destinationParkingCell, GraphicCar voiture, Runnable context) {

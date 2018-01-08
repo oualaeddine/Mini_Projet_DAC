@@ -33,7 +33,7 @@ public class GraphicCar extends MovingCar {
     private String image;
     private JLabel label;
 
-    GraphicCar(ClientType clientType) {
+    public GraphicCar(ClientType clientType) {
         super();
         this.getClient().setType(clientType);
         switch (clientType) {
@@ -47,7 +47,7 @@ public class GraphicCar extends MovingCar {
                 break;
             case ABONNE:
                 image = vehicules[13];
-                setupIconSize(1,1);
+                setupIconSize(1, 1);
                 break;
         }
     }
@@ -86,5 +86,17 @@ public class GraphicCar extends MovingCar {
                 ", image=" + image +
                 ", label=" + label +
                 "} " + super.toString();
+    }
+
+    public int getPriorityInt() {
+        switch (getClient().getType()) {
+            case NORMAL:
+                return Thread.MIN_PRIORITY;
+            case HANDICAP:
+                return Thread.MAX_PRIORITY;
+            case ABONNE:
+                return Thread.NORM_PRIORITY;
+        }
+        return 0;
     }
 }

@@ -15,10 +15,11 @@ public class SemaphoreIn extends Semaphore {
         if (n < 0) {
             synchronized (this) {
                 try {
-                    Ordonnanceur.addVoiture(sg);
+                    //      Ordonnanceur.addVoiture(sg);
                     this.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
         }
@@ -27,6 +28,7 @@ public class SemaphoreIn extends Semaphore {
     @Override
     synchronized void V(SeGarer sg) {
         n++;
-        Ordonnanceur.notifyLiDalethom();
+        // Ordonnanceur.notifyLiDalethom();
+        this.notify();
     }
 }

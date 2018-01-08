@@ -20,9 +20,11 @@ public class SeGarer extends Thread implements Comparable {
 
     private GraphicCar voiture;
 
-    public SeGarer(Parking parking, GraphicCar voiture) {
+    public SeGarer(Parking parking, GraphicCar voiture, String s) {
         this.parking = parking;
         this.voiture = voiture;
+        setName(s);
+        setPriority(voiture.getPriorityInt());
     }
 
     public void trouver() {
@@ -57,11 +59,11 @@ public class SeGarer extends Thread implements Comparable {
 
     @Override
     public void run() {
-
         if (this.getVoiture().getClient().getType() != ClientType.HANDICAP)
             MainWindow.getVideNormal().P(this);
         else
             MainWindow.getVideHandi().P(this);
+
         MainWindow.getEntree().P(this);
         //Trouver une place
         trouver();
@@ -75,6 +77,7 @@ public class SeGarer extends Thread implements Comparable {
         ekhroj();
 //        parking.sortir(this.voiture);
         MainWindow.getSortie().V(this);
+
         if (this.getVoiture().getClient().getType() == ClientType.HANDICAP)
             MainWindow.getVideHandi().V(this);
         else
@@ -99,5 +102,13 @@ public class SeGarer extends Thread implements Comparable {
                 other.getVoiture().getClient().getType() != ClientType.NORMAL)
             return 1;
         else return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "SeGarer{" +
+                "parking=" + parking +
+                ", voiture=" + voiture +
+                "} " + super.toString();
     }
 }

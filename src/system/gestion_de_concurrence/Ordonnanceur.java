@@ -32,14 +32,21 @@ public class Ordonnanceur {
     }
 
     public static void notifyLiDalethom() {
-  /*      for (SeGarer seGarer : getFileDAttente()) {
+        /*for (SeGarer seGarer : getFileDAttente()) {
             seGarer.notify();
+        }
+        LinkedList<SeGarer> fileDAttente = getFileDAttente();
+        for (int i = 0, fileDAttenteSize = fileDAttente.size(); i < fileDAttenteSize; i++) {
+            SeGarer sg = fileDAttente.get(i);
+            sg.notify();
+            System.out.println(sg.toString());
+            return;
         }*/
-        getFileDAttente().pop().notify();
     }
 
     public void startAll() {
-        for (SeGarer seGarer : getFileDAttente()) {
+        for (SeGarer seGarer : seGarers) {
+            // int i = new Random().nextInt(seGarers.size());
             seGarer.start();
         }
     }
