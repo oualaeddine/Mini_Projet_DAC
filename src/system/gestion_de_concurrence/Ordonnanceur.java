@@ -11,7 +11,7 @@ public class Ordonnanceur {
         seGarers = list;
     }
 
-    private static synchronized LinkedList<SeGarer> getFileDAttente() {
+    private static LinkedList<SeGarer> getFileDAttente() {
         LinkedList<SeGarer> seGarerLinkedList = new LinkedList<>();
         /*for (SeGarer seGarer : seGarers) {
             if (seGarer.getVoiture().getClient().getType() == ClientType.HANDICAP) {
@@ -31,7 +31,7 @@ public class Ordonnanceur {
         return seGarerLinkedList;
     }
 
-    public void notifyLiDalethom() {
+    public static void notifyLiDalethom() {
         for (SeGarer seGarer : getFileDAttente()) {
             seGarer.notify();
         }
@@ -43,5 +43,8 @@ public class Ordonnanceur {
         }
     }
 
+    public static void addVoiture(SeGarer voiture) {
+        seGarers.add(voiture);
+    }
 
 }

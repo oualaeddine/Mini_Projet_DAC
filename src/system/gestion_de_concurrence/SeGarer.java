@@ -58,27 +58,27 @@ public class SeGarer extends Thread implements Comparable {
     @Override
     public void run() {
 
-        if (this.getVoiture().getClient().getType()!=ClientType.HANDICAP)
-            MainWindow.getVideNormal().P();
+        if (this.getVoiture().getClient().getType() != ClientType.HANDICAP)
+            MainWindow.getVideNormal().P(this);
         else
-            MainWindow.getVideHandi().P();
-        MainWindow.getEntree().P();
+            MainWindow.getVideHandi().P(this);
+        MainWindow.getEntree().P(this);
         //Trouver une place
         trouver();
 
-        MainWindow.getEntree().V();
+        MainWindow.getEntree().V(this);
         //yroh ygari w yebqa ltem pendant X
         assena();
 
-        MainWindow.getSortie().P();
+        MainWindow.getSortie().P(this);
         //Sortir et libérer la place
         ekhroj();
 //        parking.sortir(this.voiture);
-        MainWindow.getSortie().V();
+        MainWindow.getSortie().V(this);
         if (this.getVoiture().getClient().getType() == ClientType.HANDICAP)
-            MainWindow.getVideHandi().V();
+            MainWindow.getVideHandi().V(this);
         else
-            MainWindow.getVideNormal().V();
+            MainWindow.getVideNormal().V(this);
     }
 
     @Override

@@ -46,6 +46,7 @@ public class Parking {
         GroupLayout testLayout = new GroupLayout(cells[x - 1][y - 1].getCellJPanel());
         cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
 //        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
+//        car.setupIconOrientation();
         car.setupIconSize(cellWidth, cellHeight);
         JLabel jLabel15 = car.getLabel();
         testLayout.setHorizontalGroup(

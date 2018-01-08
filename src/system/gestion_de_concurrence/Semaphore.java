@@ -28,7 +28,7 @@ public class Semaphore {
         this.name = name;
     }
 
-    synchronized void P() {
+    synchronized void P(SeGarer sg) {
         n--;
         if (n < 0) {
             try {
@@ -39,7 +39,7 @@ public class Semaphore {
         }
     }
 
-    synchronized void V() {
+    synchronized void V(SeGarer sg) {
         n++;
         notify();
     }
