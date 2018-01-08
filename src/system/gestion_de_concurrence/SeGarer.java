@@ -57,11 +57,12 @@ public class SeGarer extends Thread implements Comparable {
 
     @Override
     public void run() {
-        MainWindow.getEntree().P();
-        if (this.getVoiture().getClient().getType()==ClientType.HANDICAP)
-            MainWindow.getVideHandi().P();
-        else
+
+        if (this.getVoiture().getClient().getType()!=ClientType.HANDICAP)
             MainWindow.getVideNormal().P();
+        else
+            MainWindow.getVideHandi().P();
+        MainWindow.getEntree().P();
         //Trouver une place
         trouver();
 
