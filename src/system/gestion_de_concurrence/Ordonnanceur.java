@@ -5,10 +5,10 @@ import java.util.LinkedList;
 
 public class Ordonnanceur {
 
-    private LinkedList<SeGarer> seGarers;
+    private static LinkedList<SeGarer> seGarers = new LinkedList<>();
 
     public Ordonnanceur(LinkedList<SeGarer> list) {
-        this.seGarers = list;
+        seGarers = list;
     }
 
     private synchronized LinkedList<SeGarer> getFileDAttente() {
@@ -42,4 +42,6 @@ public class Ordonnanceur {
             seGarer.start();
         }
     }
+
+
 }

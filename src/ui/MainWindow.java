@@ -434,7 +434,7 @@ public class MainWindow extends JFrame {
     // TODO: 1/5/2018 initialise une linkedList de GraphicCar
     // dont le nbr de cars = un attribut de la classe Mainwindow
     private void initVoituresList() {
-        initNormaux(20);
+        initNormaux(40);
         initHandi(40);
         initAbo(20);
         this.ordonnanceur = new Ordonnanceur(setThreads(listVoitures));

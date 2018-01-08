@@ -18,8 +18,13 @@ public class Parking {
         this.size = size;
         this.cells = new ParkingCell[size][size];
         sortie = new ParkingCell();
-        sortie.setRow(size);
-        sortie.setColumn(size);
+        if (size % 2 == 0) {
+            sortie.setRow(size);
+            sortie.setColumn(size);
+        } else {
+            sortie.setRow(size - 1);
+            sortie.setColumn(size);
+        }
     }
 
     public void addCellToParking(JPanel pan, int row, int column, CellType type) {
@@ -37,7 +42,7 @@ public class Parking {
         int y = car.getPosition().getColumn();
         int cellHeight = cells[x - 1][y - 1].getCellJPanel().getHeight();
         int cellWidth = cells[x - 1][y - 1].getCellJPanel().getHeight();
-        if (x == size && y == size) return;
+        if (x == size && y == size && size % 2 != 0) return;
         GroupLayout testLayout = new GroupLayout(cells[x - 1][y - 1].getCellJPanel());
         cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
 //        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
