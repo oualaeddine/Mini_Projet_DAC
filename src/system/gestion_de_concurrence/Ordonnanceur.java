@@ -11,7 +11,7 @@ public class Ordonnanceur {
         seGarers = list;
     }
 
-    private synchronized LinkedList<SeGarer> getFileDAttente() {
+    private static synchronized LinkedList<SeGarer> getFileDAttente() {
         LinkedList<SeGarer> seGarerLinkedList = new LinkedList<>();
         /*for (SeGarer seGarer : seGarers) {
             if (seGarer.getVoiture().getClient().getType() == ClientType.HANDICAP) {

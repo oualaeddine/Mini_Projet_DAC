@@ -9,6 +9,9 @@ public class Semaphore {
         this.name = s;
     }
 
+    public Semaphore() {
+    }
+
     public int getN() {
         return n;
     }
