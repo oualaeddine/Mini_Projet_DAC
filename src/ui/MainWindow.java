@@ -26,7 +26,7 @@ import static system.enums.CellType.ROAD;
  */
 public class MainWindow extends JFrame {
 
-    private static Semaphore vide;
+    private static Semaphore videNormal,videHandi;
     private static Semaphore borne;
     private static Semaphore sortie;
     private static Semaphore entree;
@@ -36,8 +36,11 @@ public class MainWindow extends JFrame {
     private static final int parkingSize = 10;//divisor of 550
     private int nbrHandiParkCells;
 
-    public static Semaphore getVide() {
-        return vide;
+    public static Semaphore getVideNormal() {
+        return videNormal;
+    }
+    public static Semaphore getVideHandi(){
+        return videHandi;
     }
 
     public static Semaphore getBorne() {
@@ -470,7 +473,8 @@ public class MainWindow extends JFrame {
     }
 
     private void initSemaphores() {
-        vide = new Semaphore(nbrParkCells, "Vide");
+        videHandi = new Semaphore(nbrHandiParkCells, "VideHandi");
+        videNormal = new Semaphore(nbrParkCells,"VideNormal");
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
         borne = new Semaphore(1, "Borne de paiement");

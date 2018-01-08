@@ -46,7 +46,9 @@ public class GraphicCar extends MovingCar {
                 setupIconSize(1, 1);
                 break;
             case ABONNE:
-                image = vehicules[7];
+                image = vehicules[13];
+                setupIconSize(1,1);
+                break;
         }
     }
 /*

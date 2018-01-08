@@ -58,7 +58,10 @@ public class SeGarer extends Thread implements Comparable {
     @Override
     public void run() {
         MainWindow.getEntree().P();
-        MainWindow.getVide().P();
+        if (this.getVoiture().getClient().getType()==ClientType.HANDICAP)
+            MainWindow.getVideHandi().P();
+        else
+            MainWindow.getVideNormal().P();
         //Trouver une place
         trouver();
 
@@ -71,7 +74,10 @@ public class SeGarer extends Thread implements Comparable {
         ekhroj();
 //        parking.sortir(this.voiture);
         MainWindow.getSortie().V();
-        MainWindow.getVide().V();
+        if (this.getVoiture().getClient().getType() == ClientType.HANDICAP)
+            MainWindow.getVideHandi().V();
+        else
+            MainWindow.getVideNormal().V();
     }
 
     @Override
