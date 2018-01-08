@@ -10,11 +10,7 @@ import java.util.Random;
 public class SeGarer extends Thread implements Comparable {
     private Parking parking;
 
-    public Parking getParking() {
-        return parking;
-    }
-
-    public GraphicCar getVoiture() {
+    private GraphicCar getVoiture() {
         return voiture;
     }
 
@@ -27,30 +23,29 @@ public class SeGarer extends Thread implements Comparable {
         setPriority(voiture.getPriorityInt());
     }
 
-    public void trouver() {
+    private void trouver() {
         synchronized (this) {
-            parking.prendrePlace(this.voiture);
             try {
-                this.wait(500);
+                this.wait(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            System.out.println(this.toString() + " is entering!");
+            parking.prendrePlace(this.voiture);
         }
     }
 
-    public void ekhroj() {
+    private void ekhroj() {
         parking.sortir(this.voiture);
+        System.out.println(this.toString() + " is exiting!");
+
     }
 
-
-    public synchronized void assena() {
+    private synchronized void assena() {
         try {
 
             long waiting = new Random().nextInt(5000) + 9000;
-//            long waiting = 2000;
-
-            System.out.println("Waiting");
+            System.out.println(this.toString() + " is in the park for : " + waiting + " ms!");
             this.wait(waiting);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -75,7 +70,6 @@ public class SeGarer extends Thread implements Comparable {
         MainWindow.getSortie().P(this);
         //Sortir et libérer la place
         ekhroj();
-//        parking.sortir(this.voiture);
         MainWindow.getSortie().V(this);
 
         if (this.getVoiture().getClient().getType() == ClientType.HANDICAP)
@@ -106,9 +100,7 @@ public class SeGarer extends Thread implements Comparable {
 
     @Override
     public String toString() {
-        return "SeGarer{" +
-                "parking=" + parking +
-                ", voiture=" + voiture +
-                "} " + super.toString();
+        return getName() +
+                ", voiture : " + voiture.getMatricule();
     }
 }

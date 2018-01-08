@@ -1,18 +1,18 @@
 package system.models;
 
 public class Car {
-    private int matricule;
+    private String matricule;
     private Client client;
 
     Car() {
         client = new Client();
     }
 
-    public int getMatricule() {
+    public String getMatricule() {
         return matricule;
     }
 
-    public void setMatricule(int matricule) {
+    public void setMatricule(String matricule) {
         this.matricule = matricule;
     }
 

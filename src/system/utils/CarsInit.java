@@ -24,47 +24,65 @@ public class CarsInit {
         this.nbrVoituresNrml = nbrVoituresNrml;
         nbrVoitures = nbrVoituresAbo + nbrVoituresNrml + nbrVoituresSpcl;
         this.parking = parking;
+        listVoituresSpcl = new LinkedList<>();
+        listVoituresAbo = new LinkedList<>();
+        listVoituresNormal = new LinkedList<>();
+        synchronized (this) {
+            initSpclClientCar();
+            initAboClientCar();
+            initNormalClientCar();
+        }
         initList();
     }
 
 
     private void initSpclClientCar() {
-        listVoituresSpcl = new LinkedList<>();
+
         for (int i = 0; i < nbrVoituresSpcl; i++) {
-            listVoituresSpcl.add(new GraphicCar(ClientType.HANDICAP));
+            GraphicCar car = new GraphicCar(ClientType.HANDICAP);
+            car.setMatricule("Handi#" + i);
+            listVoituresSpcl.add(car);
         }
     }
 
     private void initAboClientCar() {
-        listVoituresAbo = new LinkedList<>();
         for (int i = 0; i < nbrVoituresAbo; i++) {
-            listVoituresAbo.add(new GraphicCar(ClientType.ABONNE));
+            GraphicCar car = new GraphicCar(ClientType.ABONNE);
+            car.setMatricule("Abo#" + i);
+            listVoituresAbo.add(car);
         }
     }
 
     private void initNormalClientCar() {
-        listVoituresNormal = new LinkedList<>();
         for (int i = 0; i < nbrVoituresNrml; i++) {
-            listVoituresNormal.add(new GraphicCar(ClientType.NORMAL));
+            GraphicCar car = new GraphicCar(ClientType.NORMAL);
+            car.setMatricule("Norm#" + i);
+            listVoituresNormal.add(car);
         }
     }
 
     private void addSpclClientCar() {
-        listVoitures.add(listVoituresSpcl.peekFirst());
+        if (!listVoituresSpcl.isEmpty()) {
+            listVoitures.add(listVoituresSpcl.get(0));
+            listVoituresSpcl.remove(0);
+        }
     }
 
     private void addAboClientCar() {
-        listVoitures.add(listVoituresAbo.peekFirst());
+        if (!listVoituresAbo.isEmpty()) {
+            listVoitures.add(listVoituresAbo.get(0));
+            listVoituresAbo.remove(0);
+        }
     }
 
     private void addNormalClientCar() {
-        listVoitures.add(listVoituresNormal.peekFirst());
+        if (!listVoituresNormal.isEmpty()) {
+            listVoitures.add(listVoituresNormal.get(0));
+            listVoituresNormal.remove(0);
+        }
     }
 
     private void initList() {
-        initSpclClientCar();
-        initAboClientCar();
-        initNormalClientCar();
         for (int i = 0; i <= nbrVoitures; i++) {
             int x = new Random().nextInt(2) + 1;
             switch (x) {

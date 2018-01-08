@@ -30,6 +30,7 @@ public class Semaphore {
 
     synchronized void P(SeGarer sg) {
         n--;
+        log(sg, "requiring");
         if (n < 0) {
             try {
                 this.wait();
@@ -41,6 +42,11 @@ public class Semaphore {
 
     synchronized void V(SeGarer sg) {
         n++;
+        log(sg, "releasing");
         notify();
+    }
+
+    void log(SeGarer sg, String releasing) {
+        System.out.println("SEMA : " + name + " = " + n + " || " + sg + " is " + releasing);
     }
 }

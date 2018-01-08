@@ -19,10 +19,10 @@ public class Parking {
         this.cells = new ParkingCell[size][size];
         sortie = new ParkingCell();
         if (size % 2 == 0) {
-            sortie.setRow(size);
+            sortie.setRow(size - 1);
             sortie.setColumn(size);
         } else {
-            sortie.setRow(size - 1);
+            sortie.setRow(size);
             sortie.setColumn(size);
         }
     }
@@ -189,7 +189,6 @@ public class Parking {
                         departParkingCell.setColumn(1);
                         occupy(freePlace);
                         deplacerVoitureSurPath(departParkingCell, freePlace, testCar, this);
-//                        cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
                         try {
                             this.wait(500);
                         } catch (InterruptedException e) {
@@ -243,7 +242,7 @@ public class Parking {
             voiture.setPosition(cell.getPosition());
             setCar(voiture);
             try {
-                context.wait(50);
+                context.wait(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
