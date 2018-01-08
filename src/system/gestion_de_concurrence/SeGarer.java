@@ -81,16 +81,16 @@ public class SeGarer extends Thread implements Comparable {
             return 0;
         if (this.voiture.getClient().getType() == ClientType.HANDICAP &&
                 other.getVoiture().getClient().getType() != ClientType.HANDICAP)
-            return 1;
+            return -1;
         if (this.voiture.getClient().getType() != ClientType.HANDICAP &&
                 other.getVoiture().getClient().getType() == ClientType.HANDICAP)
-            return -1;
+            return 1;
         if (this.voiture.getClient().getType() == ClientType.ABONNE &&
                 other.getVoiture().getClient().getType() == ClientType.NORMAL)
-            return 1;
+            return -1;
         if (this.voiture.getClient().getType() == ClientType.NORMAL &&
                 other.getVoiture().getClient().getType() != ClientType.NORMAL)
-            return -1;
+            return 1;
         else return 0;
     }
 }

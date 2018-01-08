@@ -38,11 +38,11 @@ public class GraphicCar extends MovingCar {
         this.getClient().setType(clientType);
         switch (clientType) {
             case NORMAL:
-                image = vehicules[5];
+                image = vehicules[6];
                 setupIconSize(1, 1);
                 break;
             case HANDICAP:
-                image = vehicules[6];
+                image = vehicules[5];
                 setupIconSize(1, 1);
                 break;
             case ABONNE:
