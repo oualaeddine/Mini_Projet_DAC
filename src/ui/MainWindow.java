@@ -33,7 +33,7 @@ public class MainWindow extends JFrame {
     //Heda houwa
     private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
     private int nbrParkCells;
-    private static final int parkingSize = 10;//divisor of 550
+    private static final int parkingSize = 9;//divisor of 550
     private int nbrHandiParkCells;
     private LinkedList<SeGarer> voituresThreadsList;
 
@@ -41,7 +41,7 @@ public class MainWindow extends JFrame {
         return videNormal;
     }
 
-    private int nbrVoituresAbo = 20, nbrVoituresSpcl = 50, nbrVoituresNrml = 17;
+    private int nbrVoituresAbo = 200, nbrVoituresSpcl = 500, nbrVoituresNrml = 170;
 
     public static Semaphore getBorne() {
         return borne;
@@ -409,7 +409,11 @@ public class MainWindow extends JFrame {
     private void addParkRow(int row) {
         for (int j = 1; j <= parkingSize; j++) {
             if (j % 6 != 0) {
-                if (row == parkingSize || row == parkingSize - 1)
+                if (((j + 1) % 6 == 0 || (j - 1) % 6 == 0) &&
+                        (j != 1) &&
+                        j != parkingSize) {
+                    addHandiParkCell(row, j);
+                } else if (row == parkingSize || row == parkingSize - 1)
                     addHandiParkCell(row, j);
                 else
                     addParkCell(row, j);

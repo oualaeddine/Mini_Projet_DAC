@@ -33,6 +33,7 @@ public class Semaphore {
         log(sg, "requiring");
         if (n < 0) {
             try {
+                log(sg, "waiting!");
                 this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -46,7 +47,7 @@ public class Semaphore {
         notify();
     }
 
-    void log(SeGarer sg, String releasing) {
-        System.out.println("SEMA : " + name + " = " + n + " || " + sg + " is " + releasing);
+    void log(SeGarer sg, String action) {
+        System.out.println("SEMA : " + name + " = " + n + " || " + sg + " is " + action);
     }
 }

@@ -26,7 +26,7 @@ public class SeGarer extends Thread implements Comparable {
     private void trouver() {
         synchronized (this) {
             try {
-                this.wait(1000);
+                this.wait(700);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -35,7 +35,8 @@ public class SeGarer extends Thread implements Comparable {
         }
     }
 
-    private void ekhroj() {
+    private synchronized void ekhroj() {
+
         parking.sortir(this.voiture);
         System.out.println(this.toString() + " is exiting!");
 
@@ -44,7 +45,7 @@ public class SeGarer extends Thread implements Comparable {
     private synchronized void assena() {
         try {
 
-            long waiting = new Random().nextInt(5000) + 9000;
+            long waiting = new Random().nextInt(5000) + 25000;
             System.out.println(this.toString() + " is in the park for : " + waiting + " ms!");
             this.wait(waiting);
         } catch (InterruptedException e) {
