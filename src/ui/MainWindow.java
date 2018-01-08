@@ -1,6 +1,7 @@
 package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
+import system.enums.CellType;
 import system.enums.ClientType;
 import system.gestion_de_concurrence.Ordonnanceur;
 import system.gestion_de_concurrence.SeGarer;
@@ -387,6 +388,14 @@ public class MainWindow extends JFrame {
         nbrParkCells++;
     }
 
+    private void addHandiParkCell(int row, int column) {
+        JPanel pan = new JPanel();
+        pan.setBackground(Color.pink);
+        parkingPanel.add(pan);
+        parking.addCellToParking(pan, row, column, CellType.HANDI);
+        nbrParkCells++;
+    }
+
     private void addRoadCell(int row, int column) {
         JPanel pan = new JPanel();
         pan.setBackground(Color.decode("#303030"));
@@ -396,12 +405,11 @@ public class MainWindow extends JFrame {
 
     private void addParkRow(int row) {
         for (int j = 1; j <= parkingSize; j++) {
-
             if (j % 6 != 0) {
-      /*          if ((j < 2) || (j - 1) % 6 == 0)
-                    addRoadCell(row, j);
-                else*/
-                addParkCell(row, j);
+                if (row == parkingSize || row == parkingSize - 1)
+                    addHandiParkCell(row, j);
+                else
+                    addParkCell(row, j);
             } else
                 addRoadCell(row, j);
         }

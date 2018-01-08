@@ -2,6 +2,7 @@ package system.models;
 
 import system.enums.CellState;
 import system.enums.CellType;
+import system.enums.ClientType;
 import ui.GraphicCar;
 
 import javax.swing.*;
@@ -67,8 +68,10 @@ public class Parking {
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.GREEN);
         if (cells[x - 1][y - 1].getType() == CellType.ROAD)
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.decode("#303030"));
-        else
+        if (cells[x - 1][y - 1].getType() == CellType.PARK)
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.gray);
+        if (cells[x - 1][y - 1].getType() == CellType.HANDI)
+            cells[x - 1][y - 1].getCellJPanel().setBackground(Color.pink);
     }
 
     private LinkedList<ParkingCell> findPath(ParkingCell targetParkingCell, ParkingCell departParkingCell) {
@@ -148,12 +151,15 @@ public class Parking {
     }
 
 
-    private ParkingCell findFreePlace() {
+    private ParkingCell findFreePlace(ClientType clientType) {
         for (int i = 0; i <= size - 1; i++) {
             for (int j = 0; j <= size - 1; j++) {
                 //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
-                if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE)
+                if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP)
                     return cells[i][j];
+                else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
+                    return cells[i][j];
+
             }
         }
         // System.out.println("Parking.findFreePlace");
@@ -167,7 +173,7 @@ public class Parking {
             public void run() {
 
                 synchronized (this) {
-                    ParkingCell freePlace = findFreePlace();
+                    ParkingCell freePlace = findFreePlace(testCar.getClient().getType());
                     if (freePlace == null) System.out.println("no free place left!");
                     else {
                         ParkingCell departParkingCell = new ParkingCell();

@@ -1,5 +1,5 @@
 package system.enums;
 
 public enum CellType {
-    ROAD,PARK
+    ROAD, HANDI, PARK
 }
