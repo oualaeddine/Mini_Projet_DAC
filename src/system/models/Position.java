@@ -4,12 +4,12 @@ public class Position {
 
     private int row, column;
 
-    public Position(int row, int column) {
+    Position(int row, int column) {
         this.row = row;
         this.column = column;
     }
 
-    public Position() {
+    Position() {
 
     }
 
@@ -20,8 +20,7 @@ public class Position {
 
         Position position = (Position) o;
 
-        if (row != position.row) return false;
-        return column == position.column;
+        return row == position.row && column == position.column;
     }
 
     @Override
@@ -31,7 +30,7 @@ public class Position {
         return result;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
@@ -39,7 +38,7 @@ public class Position {
         this.column = column;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 

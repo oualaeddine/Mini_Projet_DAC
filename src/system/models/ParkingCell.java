@@ -5,7 +5,7 @@ import system.enums.CellType;
 
 import javax.swing.*;
 
-public class ParkingCell {
+class ParkingCell {
     private int column;
     private int row;
     private JPanel cellJPanel;
@@ -13,50 +13,50 @@ public class ParkingCell {
     private CellState state;
     private Position position;
 
-    public CellState getState() {
+    ParkingCell() {
+    }
+
+    CellState getState() {
         return state;
     }
 
-    public void setState(CellState state) {
+    void setState(CellState state) {
         this.state = state;
     }
 
-    public ParkingCell() {
-    }
-
-    public JPanel getCellJPanel() {
+    JPanel getCellJPanel() {
         return cellJPanel;
     }
 
-    public void setCellJPanel(JPanel cellJPanel) {
+    void setCellJPanel(JPanel cellJPanel) {
         this.cellJPanel = cellJPanel;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
-    public int getRow() {
+    void setColumn(int column) {
+        this.column = column;
+    }
+
+    int getRow() {
         return row;
     }
 
-    public CellType getType() {
+    void setRow(int row) {
+        this.row = row;
+    }
+
+    CellType getType() {
         return type;
     }
 
-    public void setType(CellType type) {
+    void setType(CellType type) {
         this.type = type;
     }
 
-    public Position getPosition() {
+    Position getPosition() {
         return new Position(row, column);
     }
 

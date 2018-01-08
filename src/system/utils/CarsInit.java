@@ -11,11 +11,13 @@ import java.util.Random;
 public class CarsInit {
     private final Parking parking;
     private int nbrVoituresAbo = 20, nbrVoituresSpcl = 50, nbrVoituresNrml = 17;
-    private LinkedList<GraphicCar> listVoitures;
-    private int nbrVoitures;
+    private final LinkedList<GraphicCar> listVoitures;
+    private final int nbrVoitures;
 
 
-    private LinkedList<GraphicCar> listVoituresSpcl, listVoituresAbo, listVoituresNormal;
+    private final LinkedList<GraphicCar> listVoituresSpcl;
+    private final LinkedList<GraphicCar> listVoituresAbo;
+    private final LinkedList<GraphicCar> listVoituresNormal;
 
     public CarsInit(int nbrVoituresAbo, int nbrVoituresNrml, int nbrVoituresSpcl, Parking parking) {
         listVoitures = new LinkedList<>();

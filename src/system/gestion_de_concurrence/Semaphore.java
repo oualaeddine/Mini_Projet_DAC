@@ -47,7 +47,7 @@ public class Semaphore {
         notify();
     }
 
-    void log(SeGarer sg, String action) {
+    private void log(SeGarer sg, String action) {
         System.out.println("SEMA : " + name + " = " + n + " || " + sg + " is " + action);
     }
 }

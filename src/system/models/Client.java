@@ -6,7 +6,7 @@ public class Client {
     private ClientType type;
     private int id;
 
-    public Client() {
+    Client() {
     }
 
     public int getId() {

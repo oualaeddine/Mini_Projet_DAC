@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Parking {
     private final int size;
     private final ParkingCell[][] cells;
-    private ParkingCell sortie;
+    private final ParkingCell sortie;
 
     public Parking(int size) {
         this.size = size;

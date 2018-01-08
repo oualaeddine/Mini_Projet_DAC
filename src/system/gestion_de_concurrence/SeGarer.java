@@ -8,13 +8,13 @@ import ui.MainWindow;
 import java.util.Random;
 
 public class SeGarer extends Thread implements Comparable {
-    private Parking parking;
+    private final Parking parking;
 
     private GraphicCar getVoiture() {
         return voiture;
     }
 
-    private GraphicCar voiture;
+    private final GraphicCar voiture;
 
     public SeGarer(Parking parking, GraphicCar voiture, String s) {
         this.parking = parking;

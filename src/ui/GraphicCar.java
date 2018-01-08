@@ -10,7 +10,8 @@ import java.awt.*;
 
 
 public class GraphicCar extends MovingCar {
-    private String[] vehicules = {
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String[] vehicules = {
             "/images/buses.png",
             "/images/by1.png",
             "/images/by2.png",

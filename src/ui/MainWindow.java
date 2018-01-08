@@ -25,23 +25,19 @@ import static system.enums.CellType.ROAD;
  */
 public class MainWindow extends JFrame {
 
-    private static Semaphore videNormal,
-            videHandi;
+    private static final int parkingSize = 9;//divisor of 550
     private static Semaphore borne;
     private static Semaphore sortie;
     private static Semaphore entree;
-    //Heda houwa
-    private LinkedList<GraphicCar> listVoitures = new LinkedList<>();
     private int nbrParkCells;
-    private static final int parkingSize = 9;//divisor of 550
     private int nbrHandiParkCells;
+    private static Semaphore videNormal, videHandi;
+
     private LinkedList<SeGarer> voituresThreadsList;
 
     public static Semaphore getVideNormal() {
         return videNormal;
     }
-
-    private int nbrVoituresAbo = 200, nbrVoituresSpcl = 500, nbrVoituresNrml = 170;
 
     public static Semaphore getBorne() {
         return borne;
@@ -58,7 +54,7 @@ public class MainWindow extends JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public MainWindow() {
+    private MainWindow() {
         initComponents();
         customizeComponents();
     }
@@ -98,35 +94,10 @@ public class MainWindow extends JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
+        EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSettings;
-    private javax.swing.JButton btnStart;
-    private javax.swing.JButton btnStop;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel parkingPanel;
-    private javax.swing.JPanel parking_box;
     // End of variables declaration//GEN-END:variables
     private Parking parking;
 
@@ -144,27 +115,27 @@ public class MainWindow extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        parking_box = new javax.swing.JPanel();
+        JPanel jPanel1 = new JPanel();
+        JPanel parking_box = new JPanel();
         parkingPanel = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        btnStart = new javax.swing.JButton();
-        btnStop = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        btnSettings = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        JPanel jPanel4 = new JPanel();
+        JButton btnStart = new JButton();
+        JButton btnStop = new JButton();
+        JLabel jLabel1 = new JLabel();
+        JButton btnSettings = new JButton();
+        JLabel jLabel2 = new JLabel();
+        JLabel jLabel3 = new JLabel();
+        JLabel jLabel4 = new JLabel();
+        JLabel jLabel5 = new JLabel();
+        JLabel jLabel6 = new JLabel();
+        JLabel jLabel7 = new JLabel();
+        JLabel jLabel8 = new JLabel();
+        JLabel jLabel9 = new JLabel();
+        JLabel jLabel10 = new JLabel();
+        JLabel jLabel11 = new JLabel();
+        JLabel jLabel12 = new JLabel();
+        JLabel jLabel13 = new JLabel();
+        JLabel jLabel14 = new JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -201,27 +172,15 @@ public class MainWindow extends JFrame {
 
         btnStart.setText("demarrer");
         btnStart.setActionCommand("");
-        btnStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStartActionPerformed(evt);
-            }
-        });
+        btnStart.addActionListener(this::btnStartActionPerformed);
 
         btnStop.setText("Arreter");
-        btnStop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopActionPerformed(evt);
-            }
-        });
+        btnStop.addActionListener(this::btnStopActionPerformed);
 
         jLabel1.setText("toutes les places :");
 
         btnSettings.setText("parametres");
-        btnSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSettingsActionPerformed(evt);
-            }
-        });
+        btnSettings.addActionListener(this::btnSettingsActionPerformed);
 
         jLabel2.setText("0");
 
@@ -437,6 +396,9 @@ public class MainWindow extends JFrame {
 
     private void initVoituresList() {
 
+        int nbrVoituresNrml = 170;
+        int nbrVoituresSpcl = 500;
+        int nbrVoituresAbo = 200;
         voituresThreadsList = new CarsInit(nbrVoituresAbo, nbrVoituresNrml, nbrVoituresSpcl, parking).getSeGarrers();
     }
 
