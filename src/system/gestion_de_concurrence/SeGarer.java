@@ -48,7 +48,6 @@ public class SeGarer extends Thread implements Comparable {
 
     private synchronized void assena() {
         try {
-
             long waiting = new Random().nextInt(NBR_SECONDES_PARKING_MAX * 1000) + NBR_SECONDES_PARKING_MIN * 1000;
             System.out.println(this.toString() + " is in the park for : " + waiting + " ms!");
             this.wait(waiting);

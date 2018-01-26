@@ -2,6 +2,7 @@ package system.models;
 
 import system.enums.ClientType;
 
+@SuppressWarnings("unused")
 public class Client {
     private ClientType type;
     private int id;

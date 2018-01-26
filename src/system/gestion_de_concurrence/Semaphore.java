@@ -8,6 +8,7 @@ import ui.MainWindow;
  * afin d'appliquer les notions qu'on a apris dans le module DAC
  */
 
+@SuppressWarnings("ALL")
 public class Semaphore {
     private int n;
     private String name;
@@ -63,6 +64,6 @@ public class Semaphore {
     }
 
     private void log(SeGarer sg, String action) {
-        System.out.println("SEMA : " + name + " = " + n + " || " + sg + " is " + action);
+        System.out.println("SEMAPHORE : " + name + " = " + n + " || " + sg + " is " + action);
     }
 }

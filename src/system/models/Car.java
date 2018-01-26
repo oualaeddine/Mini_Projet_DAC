@@ -1,5 +1,6 @@
 package system.models;
 
+@SuppressWarnings("unused")
 public class Car {
     private String matricule;
     private Client client;

@@ -67,7 +67,6 @@ public class Parking {
     }
 
     private void setDefault(int x, int y) {
-        // cells[x - 1][y - 1].setState(CellState.LIBRE);
         cells[x - 1][y - 1].getCellJPanel().removeAll();
         cells[x - 1][y - 1].getCellJPanel().repaint();
         cells[x - 1][y - 1].getCellJPanel().updateUI();
@@ -90,8 +89,6 @@ public class Parking {
         int startRowIndex = departParkingCell.getRow() - 1;
         int targetColumn = targetParkingCell.getPosition().getColumn();
         int targetRow = targetParkingCell.getPosition().getRow();
-        //path.add(cells[1][0]);
-        /*path.add(cells[1][1]);*/
         boolean found = false;
         //dans le cas ou la dernierre ligne n'est pas une route
         if (startRowIndex == size - 1) {
@@ -158,7 +155,6 @@ public class Parking {
         while (cells[1][j].getType() == CellType.PARK) {
             j--;
         }
-        //System.out.println("lestColumnRoad = " + j);
         return j;
     }
 
@@ -175,7 +171,6 @@ private ParkingCell findFreePlace(ClientType clientType) {
                     return cells[i][j];
             }
         }
-        // System.out.println("Parking.findFreePlace");
         return null;
     }
 
@@ -233,7 +228,6 @@ private ParkingCell findFreePlace(ClientType clientType) {
      * cette methode s'occupe de changer l'etat d'une place
      * */
     private void liberer(ParkingCell cell) {
-        //System.out.println("liberer = [" + cell + "]time : " + System.currentTimeMillis());
         cells[cell.getRow() - 1][cell.getColumn() - 1].setState(CellState.LIBRE);
         cells[cell.getRow() - 1][cell.getColumn() - 1].getCellJPanel().setBackground(Color.green);
         setDefault(cell.getRow(), cell.getColumn());
@@ -246,7 +240,7 @@ private ParkingCell findFreePlace(ClientType clientType) {
                     MainWindow.nbrPlacesnormalocc--;
                     break;
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -254,7 +248,6 @@ private ParkingCell findFreePlace(ClientType clientType) {
      * cette methode s'occupe de changer l'etat d'une place
      * */
     private void occupy(ParkingCell freePlace) {
-        //System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getCellJPanel().setBackground(Color.red);
 
@@ -267,7 +260,7 @@ private ParkingCell findFreePlace(ClientType clientType) {
                     MainWindow.nbrPlacesnormalocc++;
                     break;
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         MainWindow.updateView();
     }

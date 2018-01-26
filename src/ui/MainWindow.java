@@ -17,6 +17,7 @@ import static system.enums.CellType.PARK;
 import static system.enums.CellType.ROAD;
 
 //@SuppressWarnings("unused")
+@SuppressWarnings("unused")
 public class MainWindow extends JFrame {
 
     private static final int parkingSize = Params.PARKING_SIZE;//divisor of 550
@@ -29,7 +30,7 @@ public class MainWindow extends JFrame {
     private static int nbrParkCells;
     private static int nbrHandiParkCells;
     private static Semaphore videNormal, videHandi;
-    private static JLabel nbrPlaces, nbrPlacesLibres, nbrPlacesOccupées, nbrVoitures, nbrEnAttenteEntrée, nbrAttenteSortie, parkingSizeLbl;
+    private static JLabel nbrPlaces, nbrPlacesLibres, nbcPlacesOccupied, nbrVoitures, nbrEnAttenteEntree, nbrAttenteSortie, parkingSizeLbl;
     private LinkedList<SeGarer> voituresThreadsList;
     private Parking parking;
     private JPanel parkingPanel;
@@ -81,7 +82,7 @@ public class MainWindow extends JFrame {
         return nbrPlaces;
     }
 
-    public static void setNbrPlaces(String nbrPlaces) {
+    private static void setNbrPlaces(String nbrPlaces) {
         MainWindow.nbrPlaces.setText(nbrPlaces);
     }
 
@@ -89,40 +90,40 @@ public class MainWindow extends JFrame {
         return nbrPlacesLibres;
     }
 
-    public static void setNbrPlacesLibres(String nbrPlacesLibres) {
+    private static void setNbrPlacesLibres(String nbrPlacesLibres) {
         MainWindow.nbrPlacesLibres.setText(nbrPlacesLibres);
     }
 
     public static JLabel getNbrPlacesOccupees() {
-        return nbrPlacesOccupées;
+        return nbcPlacesOccupied;
     }
 
-    public static void setNbrPlacesOccupees(String nbrPlacesOccupees) {
-        MainWindow.nbrPlacesOccupées.setText(nbrPlacesOccupees);
+    private static void setNbrPlacesOccupees(String nbrPlacesOccupees) {
+        MainWindow.nbcPlacesOccupied.setText(nbrPlacesOccupees);
     }
 
     public static JLabel getNbrVoitures() {
         return nbrVoitures;
     }
 
-    public static void setNbrVoitures(String nbrVoitures) {
+    private static void setNbrVoitures(String nbrVoitures) {
         nbrV = Integer.parseInt(nbrVoitures);
         MainWindow.nbrVoitures.setText(nbrVoitures);
     }
 
     public static JLabel getNbrEnAttenteEntree() {
-        return nbrEnAttenteEntrée;
+        return nbrEnAttenteEntree;
     }
 
-    public static void setNbrEnAttenteEntree(String nbrEnAttenteEntree) {
-        MainWindow.nbrEnAttenteEntrée.setText(nbrEnAttenteEntree);
+    private static void setNbrEnAttenteEntree(String nbrEnAttenteEntree) {
+        MainWindow.nbrEnAttenteEntree.setText(nbrEnAttenteEntree);
     }
 
     public static JLabel getNbrAttenteSortie() {
         return nbrAttenteSortie;
     }
 
-    public static void setNbrAttenteSortie(String nbrAttenteSortie) {
+    private static void setNbrAttenteSortie(String nbrAttenteSortie) {
         MainWindow.nbrAttenteSortie.setText(nbrAttenteSortie);
     }
 
@@ -199,11 +200,11 @@ public class MainWindow extends JFrame {
         JLabel jLabel3 = new JLabel();
         nbrPlacesLibres = new JLabel();
         JLabel jLabel5 = new JLabel();
-        nbrPlacesOccupées = new JLabel();
+        nbcPlacesOccupied = new JLabel();
         JLabel jLabel7 = new JLabel();
         nbrVoitures = new JLabel();
         JLabel jLabel9 = new JLabel();
-        nbrEnAttenteEntrée = new JLabel();
+        nbrEnAttenteEntree = new JLabel();
         JLabel jLabel11 = new JLabel();
         nbrAttenteSortie = new JLabel();
         JLabel jLabel13 = new JLabel();
@@ -262,7 +263,7 @@ public class MainWindow extends JFrame {
 
         jLabel5.setText("places occupées (N) : ");
 
-        nbrPlacesOccupées.setText("0");
+        nbcPlacesOccupied.setText("0");
 
         jLabel7.setText("nbr voitures:");
 
@@ -270,7 +271,7 @@ public class MainWindow extends JFrame {
 
         jLabel9.setText("en attente (E):");
 
-        nbrEnAttenteEntrée.setText("0");
+        nbrEnAttenteEntree.setText("0");
 
         jLabel11.setText("en attente (s):");
 
@@ -296,7 +297,7 @@ public class MainWindow extends JFrame {
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nbrPlacesOccupées, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(nbcPlacesOccupied, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel4Layout.createSequentialGroup()
@@ -310,7 +311,7 @@ public class MainWindow extends JFrame {
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel9)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(nbrEnAttenteEntrée))
+                                                .addComponent(nbrEnAttenteEntree))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel11)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -341,7 +342,7 @@ public class MainWindow extends JFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel5)
-                                        .addComponent(nbrPlacesOccupées))
+                                        .addComponent(nbcPlacesOccupied))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel7)
@@ -349,7 +350,7 @@ public class MainWindow extends JFrame {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel9)
-                                        .addComponent(nbrEnAttenteEntrée))
+                                        .addComponent(nbrEnAttenteEntree))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel11)
@@ -516,6 +517,7 @@ public class MainWindow extends JFrame {
     /**
      * methode pour arreter touts les threads des voitures
      */
+    @SuppressWarnings("deprecation")
     private synchronized void stopVoitures() {
         for (SeGarer sg : voituresThreadsList) {
             if (sg.isAlive())

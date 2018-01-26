@@ -3,6 +3,10 @@
 	<output-test url="file://$MODULE_DIR$/out/test/Mini_Projet_DAC"/>
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$">
-		<excludeFolder url="file://$MODULE_DIR$/out."/>
+		<excludeFolder url="file://$MODULE_DIR$/out"/>
 	</contentEntry>
+	<levels>
+		<level name="darcula" value="project"/>
+		<level name="MigLayout" value="project"/>
+	</levels>
 </component>

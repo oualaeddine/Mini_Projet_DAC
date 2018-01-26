@@ -1,5 +1,6 @@
 package system.models;
 
+@SuppressWarnings("unused")
 public class Position {
 
     private int row, column;

@@ -2,6 +2,7 @@ package system.models;
 
 import system.enums.Direction;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MovingCar extends Car {
     private Position position;
     private Direction direction;

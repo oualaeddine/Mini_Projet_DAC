@@ -5,6 +5,7 @@ import system.enums.CellType;
 
 import javax.swing.*;
 
+@SuppressWarnings("unused")
 class ParkingCell {
     private int column;
     private int row;
@@ -69,5 +70,9 @@ class ParkingCell {
                 ", state=" + state +
                 ", position=" + position +
                 '}';
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }
