@@ -29,20 +29,36 @@ import static system.enums.CellType.ROAD;
 public class MainWindow extends JFrame {
 
     private static final int parkingSize = Params.PARKING_SIZE;//divisor of 550
-    private static Semaphore sortie;
-    private static Semaphore entree;
-    public static int nbrVoituresEntrees;
-    public static int nbrPlacesHandiocc, nbrPlacesnormalocc;
-    private static int nbrV;
-    private static int nbrSortisAttente;
-    private static int nbrParkCells;
-    private static int nbrHandiParkCells;
-    private static Semaphore videNormal, videHandi;
-    private static JLabel nbrPlaces, nbrPlacesLibres, nbcPlacesOccupied, nbrVoitures, nbrEnAttenteEntree, nbrAttenteSortie, parkingSizeLbl;
+
+    public static int nbrVoituresEntrees,
+            nbrPlacesHandiocc,
+            nbrPlacesnormalocc,
+            nbrV,
+            nbrSortisAttente,
+            nbrParkCells,
+            nbrHandiParkCells;
+
+    private static Semaphore
+            sortie,
+            entree,
+            videNormal,
+            videHandi;
+
     private LinkedList<SeGarer> voituresThreadsList;
+
     private Parking parking;
-    private JPanel parkingPanel;
+    private static JLabel
+            nbrPlaces,
+            nbrPlacesLibres,
+            nbcPlacesOccupied,
+            nbrVoitures,
+            nbrEnAttenteEntree,
+            nbrAttenteSortie,
+            parkingSizeLbl;
     private boolean stopped;
+
+    private JPanel parkingPanel;
+
 
     /**
      * Creates new form NewJFrame
@@ -67,82 +83,6 @@ public class MainWindow extends JFrame {
         EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
     }
 
-    /**
-     * getters pour les semaphores
-     **/
-    public static Semaphore getVideNormal() {
-        return videNormal;
-    }
-
-    public static Semaphore getSortie() {
-        return sortie;
-    }
-
-    public static Semaphore getEntree() {
-        return entree;
-    }
-
-    public static Semaphore getVideHandi() {
-        return videHandi;
-    }
-
-    public static JLabel getNbrPlaces() {
-        return nbrPlaces;
-    }
-
-    private static void setNbrPlaces(String nbrPlaces) {
-        MainWindow.nbrPlaces.setText(nbrPlaces);
-    }
-
-    public static JLabel getNbrPlacesLibres() {
-        return nbrPlacesLibres;
-    }
-
-    private static void setNbrPlacesLibres(String nbrPlacesLibres) {
-        MainWindow.nbrPlacesLibres.setText(nbrPlacesLibres);
-    }
-
-    public static JLabel getNbrPlacesOccupees() {
-        return nbcPlacesOccupied;
-    }
-
-    private static void setNbrPlacesOccupees(String nbrPlacesOccupees) {
-        MainWindow.nbcPlacesOccupied.setText(nbrPlacesOccupees);
-    }
-
-    public static JLabel getNbrVoitures() {
-        return nbrVoitures;
-    }
-
-    private static void setNbrVoitures(String nbrVoitures) {
-        nbrV = Integer.parseInt(nbrVoitures);
-        MainWindow.nbrVoitures.setText(nbrVoitures);
-    }
-
-    public static JLabel getNbrEnAttenteEntree() {
-        return nbrEnAttenteEntree;
-    }
-
-    private static void setNbrEnAttenteEntree(String nbrEnAttenteEntree) {
-        MainWindow.nbrEnAttenteEntree.setText(nbrEnAttenteEntree);
-    }
-
-    public static JLabel getNbrAttenteSortie() {
-        return nbrAttenteSortie;
-    }
-
-    private static void setNbrAttenteSortie(String nbrAttenteSortie) {
-        MainWindow.nbrAttenteSortie.setText(nbrAttenteSortie);
-    }
-
-    public static JLabel getParkingSizeLbl() {
-        return parkingSizeLbl;
-    }
-
-    public static void setParkingSizeLbl(String parkingSizeLbl) {
-        MainWindow.parkingSizeLbl.setText(parkingSizeLbl);
-    }
-
     public static void updateMainViewSema(String name, int n) {
        /* if (name.equals(entree.getName()))
             setNbrEnAttenteEntree("" + Math.abs(n));*/
@@ -158,13 +98,6 @@ public class MainWindow extends JFrame {
         setNbrPlacesOccupees("" + (nbrPlacesnormalocc + nbrPlacesHandiocc));
         setNbrEnAttenteEntree("" + (nbrV - nbrVoituresEntrees));
         setNbrAttenteSortie("" + Math.abs(nbrSortisAttente));
-    }
-
-    /**
-     * methode appelée lors du clique sur le boutton settings
-     */
-    private void btnSettingsActionPerformed(ActionEvent evt) {
-
     }
 
     /**
@@ -546,4 +479,85 @@ public class MainWindow extends JFrame {
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
     }
+
+    /**
+     * getters pour les semaphores
+     **/
+    public static Semaphore getVideNormal() {
+        return videNormal;
+    }
+
+    public static Semaphore getSortie() {
+        return sortie;
+    }
+
+    public static Semaphore getEntree() {
+        return entree;
+    }
+
+    public static Semaphore getVideHandi() {
+        return videHandi;
+    }
+
+    public static JLabel getNbrPlaces() {
+        return nbrPlaces;
+    }
+
+
+    /**
+     * getters & setters de quelques attributs
+     **/
+    private static void setNbrPlaces(String nbrPlaces) {
+        MainWindow.nbrPlaces.setText(nbrPlaces);
+    }
+
+    public static JLabel getNbrPlacesLibres() {
+        return nbrPlacesLibres;
+    }
+
+    private static void setNbrPlacesLibres(String nbrPlacesLibres) {
+        MainWindow.nbrPlacesLibres.setText(nbrPlacesLibres);
+    }
+
+    public static JLabel getNbrPlacesOccupees() {
+        return nbcPlacesOccupied;
+    }
+
+    private static void setNbrPlacesOccupees(String nbrPlacesOccupees) {
+        MainWindow.nbcPlacesOccupied.setText(nbrPlacesOccupees);
+    }
+
+    public static JLabel getNbrVoitures() {
+        return nbrVoitures;
+    }
+
+    private static void setNbrVoitures(String nbrVoitures) {
+        nbrV = Integer.parseInt(nbrVoitures);
+        MainWindow.nbrVoitures.setText(nbrVoitures);
+    }
+
+    public static JLabel getNbrEnAttenteEntree() {
+        return nbrEnAttenteEntree;
+    }
+
+    private static void setNbrEnAttenteEntree(String nbrEnAttenteEntree) {
+        MainWindow.nbrEnAttenteEntree.setText(nbrEnAttenteEntree);
+    }
+
+    public static JLabel getNbrAttenteSortie() {
+        return nbrAttenteSortie;
+    }
+
+    private static void setNbrAttenteSortie(String nbrAttenteSortie) {
+        MainWindow.nbrAttenteSortie.setText(nbrAttenteSortie);
+    }
+
+    public static JLabel getParkingSizeLbl() {
+        return parkingSizeLbl;
+    }
+
+    public static void setParkingSizeLbl(String parkingSizeLbl) {
+        MainWindow.parkingSizeLbl.setText(parkingSizeLbl);
+    }
+
 }
