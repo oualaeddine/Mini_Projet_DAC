@@ -7,7 +7,6 @@
  *  avec gestion des concurrences en utilisant des sémaphores                 *
  *                                                                            *
  ******************************************************************************/
-
 package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
