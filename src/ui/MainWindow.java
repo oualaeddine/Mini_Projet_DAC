@@ -25,7 +25,6 @@ import java.util.LinkedList;
 import static system.enums.CellType.PARK;
 import static system.enums.CellType.ROAD;
 
-//@SuppressWarnings("unused")
 @SuppressWarnings("unused")
 public class MainWindow extends JFrame {
 
