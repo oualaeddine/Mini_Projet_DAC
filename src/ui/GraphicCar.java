@@ -71,6 +71,15 @@ public class GraphicCar extends MovingCar {
         label.setIconTextGap(1);
     }
 
+    public void setupIconSize(int width, int height, Direction dir) {
+        label = new JLabel();
+        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ImageIcon yourImage = new ImageIcon(getClass().getResource(image/*vehicules[6]*/));
+        ImageIcon scaledImg = new ImageIcon(yourImage.getImage().getScaledInstance(width, height, Image.SCALE_FAST));
+        label.setIcon(ImageUtils.rotateImg(scaledImg, dir)); // NOI18N
+        label.setIconTextGap(1);
+    }
+
     public JLabel getLabel() {
         return label;
     }
