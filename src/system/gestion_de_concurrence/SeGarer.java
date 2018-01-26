@@ -28,6 +28,11 @@ public class SeGarer extends Thread {
     }
 
     private final GraphicCar voiture;
+    /**
+     * La création du thread se fait en lui attribuant:
+     * Le parking dans lequel la voiture va se garer
+     * La voiture qui va effectuer le processus
+     * Un nom (pour des raisons de distinctions entre les voitures sur la console)*/
 
     public SeGarer(Parking parking, GraphicCar voiture, String s) {
         this.parking = parking;
@@ -35,11 +40,15 @@ public class SeGarer extends Thread {
         setName(s);
         setPriority(voiture.getPriorityInt());
     }
-
+    /**
+     * Cette méthode demande à la voiture (à laquelle on a donné le droit de so garer)
+     * de trouver la place libre la plus proche et d'aller de placer dessus.
+     * Cette méthode n'est appélée que lorsque l'on est sur qu'il y a au moins une place vide*/
     private void trouver() {
         synchronized (this) {
             try {
-                this.wait(700);
+                this.wait(700); /**Le but de ce wait est de ralentir la procédure pour qu'elle ne soit
+                                            pas trop rapide lors de la simulation*/
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -48,15 +57,19 @@ public class SeGarer extends Thread {
             parking.prendrePlace(this.voiture);
         }
     }
-
-    private synchronized void ekhroj() {
-
+    /**
+     * Cette méthode fait sortir la voiture du parking
+     * */
+    private synchronized void sors() {
         parking.sortir(this.voiture);
         System.out.println(this.toString() + " is exiting!");
-
     }
 
-    private synchronized void assena() {
+    /**
+     * Cette méthode définit aléatoirement le temps d'attente des voitures
+     * selon les valeurs max/min définies dans la classe Params.java
+     */
+    private synchronized void attends() {
         try {
             long waiting = new Random().nextInt(NBR_SECONDES_PARKING_MAX * 1000) + NBR_SECONDES_PARKING_MIN * 1000;
             System.out.println(this.toString() + " is in the park for : " + waiting + " ms!");
@@ -66,27 +79,39 @@ public class SeGarer extends Thread {
         }
     }
 
+
+
+    /**
+     * Cette méthode va définir le processus qu'executent les voitures (tout types confondus)
+     * Le choix des sémaphores appelés s'effectue selon le type des voiture s*/
     @Override
     public void run() {
         if (this.getVoiture().getClient().getType() != ClientType.HANDICAP)
+            /**Selon le type de client, demander le 1er accès au parking en vérifiant s'il y a
+             * une place libre*/
             MainWindow.getVideNormal().P(this);
         else
             MainWindow.getVideHandi().P(this);
 
+        /**Demander le 2ème accès au parking en vérifiant que l'entrée est libre*/
         MainWindow.getEntree().P(this);
-        //Trouver une place
+        //Trouver une place après avoir reçu le signal qu'une place est libre et se garer
         trouver();
 
+        /**Envoyer un signal que l'entrée est désormais libre*/
         MainWindow.getEntree().V(this);
-        //yroh ygari w yebqa ltem pendant X
-        assena();
+        //Attendre pendant X temps
+        attends();
 
+        /**Demander l'accès à la sortie pour que 2 véhicules ne sortent pas en même temps*/
         MainWindow.getSortie().P(this);
         //Sortir et libérer la place
-        ekhroj();
+        sors();
+        /**Envoyer un signal pour dire que la sortie est désormais libre*/
         MainWindow.getSortie().V(this);
 
         if (this.getVoiture().getClient().getType() == ClientType.HANDICAP)
+            /**Selon le type de client, signaler qu'une place s'est libérée*/
             MainWindow.getVideHandi().V(this);
         else
             MainWindow.getVideNormal().V(this);
