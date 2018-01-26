@@ -52,18 +52,6 @@ public class GraphicCar extends MovingCar {
                 break;
         }
     }
-/*
-    GraphicCar() {
-        image = getRandomVehicle();
-        setupIconSize(1, 1);
-    }
-
-    private String getRandomVehicle() {
-        int i = new Random().nextInt(vehicules.length);
-        //   System.out.println(vehicules[i]);
-        return vehicules[i];
-    }*/
-
     public void setupIconSize(int width, int height) {
         label = new JLabel();
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -75,10 +63,6 @@ public class GraphicCar extends MovingCar {
 
     public JLabel getLabel() {
         return label;
-    }
-
-    public void setLabel(JLabel label) {
-        this.label = label;
     }
 
     @Override

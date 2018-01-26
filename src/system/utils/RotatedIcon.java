@@ -22,15 +22,6 @@ public class RotatedIcon implements Icon {
     private boolean circularIcon;
 
     /**
-     * Convenience constructor to create a RotatedIcon that is rotated S.
-     *
-     * @param icon the Icon to rotate
-     */
-    public RotatedIcon(Icon icon) {
-        this(icon, Rotate.UP);
-    }
-
-    /**
      * Create a RotatedIcon
      *
      * @param icon   the Icon to rotate
@@ -48,7 +39,7 @@ public class RotatedIcon implements Icon {
      * @param icon    the Icon to rotate
      * @param degrees the degrees of rotation
      */
-    public RotatedIcon(Icon icon, double degrees) {
+    RotatedIcon(Icon icon, double degrees) {
         this(icon, degrees, false);
     }
 
@@ -67,33 +58,6 @@ public class RotatedIcon implements Icon {
     }
 
     /**
-     * Gets the Icon to be rotated
-     *
-     * @return the Icon to be rotated
-     */
-    public Icon getIcon() {
-        return icon;
-    }
-
-    /**
-     * Gets the Rotate enum which indicates the direction of rotation
-     *
-     * @return the Rotate enum
-     */
-    public Rotate getRotate() {
-        return rotate;
-    }
-
-    /**
-     * Gets the degrees of rotation. Only used for Rotate.ABOUT_CENTER.
-     *
-     * @return the degrees of rotation
-     */
-    public double getDegrees() {
-        return degrees;
-    }
-
-    /**
      * Set the degrees of rotation. Only used for Rotate.ABOUT_CENTER.
      * This method only sets the degress of rotation, it will not cause
      * the Icon to be repainted. You must invoke repaint() on any
@@ -105,15 +69,6 @@ public class RotatedIcon implements Icon {
         this.degrees = degrees;
     }
 
-    /**
-     * Is the image circular or rectangular? Only used for Rotate.ABOUT_CENTER.
-     * When true, the icon width/height will not change as the Icon is rotated.
-     *
-     * @return true for a circular Icon, false otherwise
-     */
-    public boolean isCircularIcon() {
-        return circularIcon;
-    }
 
     /**
      * Set the Icon as circular or rectangular. Only used for Rotate.ABOUT_CENTER.

@@ -1,6 +1,7 @@
 package ui;
 
 import com.bulenkov.darcula.DarculaLaf;
+import system.Params;
 import system.enums.CellType;
 import system.gestion_de_concurrence.SeGarer;
 import system.gestion_de_concurrence.Semaphore;
@@ -9,38 +10,30 @@ import system.utils.CarsInit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
 import static system.enums.CellType.PARK;
 import static system.enums.CellType.ROAD;
 
+//@SuppressWarnings("unused")
 public class MainWindow extends JFrame {
 
-    private static final int parkingSize = 9;//divisor of 550
-    private static Semaphore borne;
+    private static final int parkingSize = Params.PARKING_SIZE;//divisor of 550
     private static Semaphore sortie;
     private static Semaphore entree;
-    private int nbrParkCells;
-    private int nbrHandiParkCells;
+    public static int nbrVoituresEntrees;
+    public static int nbrPlacesHandiocc, nbrPlacesnormalocc;
+    private static int nbrV;
+    private static int nbrSortisAttente;
+    private static int nbrParkCells;
+    private static int nbrHandiParkCells;
     private static Semaphore videNormal, videHandi;
-
+    private static JLabel nbrPlaces, nbrPlacesLibres, nbrPlacesOccupées, nbrVoitures, nbrEnAttenteEntrée, nbrAttenteSortie, parkingSizeLbl;
     private LinkedList<SeGarer> voituresThreadsList;
-
-    public static Semaphore getVideNormal() {
-        return videNormal;
-    }
-
-    public static Semaphore getBorne() {
-        return borne;
-    }
-
-    public static Semaphore getSortie() {
-        return sortie;
-    }
-
-    public static Semaphore getEntree() {
-        return entree;
-    }
+    private Parking parking;
+    private JPanel parkingPanel;
+    private boolean stopped;
 
     /**
      * Creates new form NewJFrame
@@ -49,20 +42,6 @@ public class MainWindow extends JFrame {
         initComponents();
         customizeComponents();
     }
-
-
-    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
-
-
-    }//GEN-LAST:event_btnSettingsActionPerformed
-
-    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        startTest();
-    }//GEN-LAST:event_btnStartActionPerformed
-
-    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
-        stopTest();
-    }//GEN-LAST:event_btnStopActionPerformed
 
     /**
      * @param args the command line arguments
@@ -75,91 +54,193 @@ public class MainWindow extends JFrame {
         } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
         /* Create and display the form */
         EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
     }
 
-    private javax.swing.JPanel parkingPanel;
-    // End of variables declaration//GEN-END:variables
-    private Parking parking;
+    /**
+     * getters pour les semaphores
+     **/
+    public static Semaphore getVideNormal() {
+        return videNormal;
+    }
 
+    public static Semaphore getSortie() {
+        return sortie;
+    }
 
-    public static int getParkingSize() {
-        return parkingSize;
+    public static Semaphore getEntree() {
+        return entree;
+    }
+
+    public static Semaphore getVideHandi() {
+        return videHandi;
+    }
+
+    public static JLabel getNbrPlaces() {
+        return nbrPlaces;
+    }
+
+    public static void setNbrPlaces(String nbrPlaces) {
+        MainWindow.nbrPlaces.setText(nbrPlaces);
+    }
+
+    public static JLabel getNbrPlacesLibres() {
+        return nbrPlacesLibres;
+    }
+
+    public static void setNbrPlacesLibres(String nbrPlacesLibres) {
+        MainWindow.nbrPlacesLibres.setText(nbrPlacesLibres);
+    }
+
+    public static JLabel getNbrPlacesOccupees() {
+        return nbrPlacesOccupées;
+    }
+
+    public static void setNbrPlacesOccupees(String nbrPlacesOccupees) {
+        MainWindow.nbrPlacesOccupées.setText(nbrPlacesOccupees);
+    }
+
+    public static JLabel getNbrVoitures() {
+        return nbrVoitures;
+    }
+
+    public static void setNbrVoitures(String nbrVoitures) {
+        nbrV = Integer.parseInt(nbrVoitures);
+        MainWindow.nbrVoitures.setText(nbrVoitures);
+    }
+
+    public static JLabel getNbrEnAttenteEntree() {
+        return nbrEnAttenteEntrée;
+    }
+
+    public static void setNbrEnAttenteEntree(String nbrEnAttenteEntree) {
+        MainWindow.nbrEnAttenteEntrée.setText(nbrEnAttenteEntree);
+    }
+
+    public static JLabel getNbrAttenteSortie() {
+        return nbrAttenteSortie;
+    }
+
+    public static void setNbrAttenteSortie(String nbrAttenteSortie) {
+        MainWindow.nbrAttenteSortie.setText(nbrAttenteSortie);
+    }
+
+    public static JLabel getParkingSizeLbl() {
+        return parkingSizeLbl;
+    }
+
+    public static void setParkingSizeLbl(String parkingSizeLbl) {
+        MainWindow.parkingSizeLbl.setText(parkingSizeLbl);
+    }
+
+    public static void updateMainViewSema(String name, int n) {
+       /* if (name.equals(entree.getName()))
+            setNbrEnAttenteEntree("" + Math.abs(n));*/
+        if (name.equals(sortie.getName()))
+            setNbrAttenteSortie("" + Math.abs(n));
+      /*  if (name.equals(videNormal.getName()))
+            setNbrPlacesLibres("" + n);*/
+    }
+
+    public static void updateView() {
+        setNbrPlaces("" + (nbrHandiParkCells + nbrParkCells));
+        setNbrPlacesLibres("" + ((nbrHandiParkCells + nbrParkCells) - (nbrPlacesnormalocc + nbrPlacesHandiocc)));
+        setNbrPlacesOccupees("" + (nbrPlacesnormalocc + nbrPlacesHandiocc));
+        setNbrEnAttenteEntree("" + (nbrV - nbrVoituresEntrees));
+        setNbrAttenteSortie("" + Math.abs(nbrSortisAttente));
+    }
+
+    /**
+     * methode appelée lors du clique sur le boutton settings
+     */
+    private void btnSettingsActionPerformed(ActionEvent evt) {
+
+    }
+
+    /**
+     * methode appelée lors du clique sur le boutton start
+     */
+    private void btnStartActionPerformed(ActionEvent evt) {
+        if (!stopped)
+            launchVoitures();
+        else {
+          /* Create and display the form */
+            EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
+            this.dispose();
+        }
+
+    }
+
+    /**
+     * methode appelée lors du clique sur le boutton stop
+     */
+    private void btnStopActionPerformed(ActionEvent evt) {
+        stopVoitures();
     }
 
     /**
      * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        stopped = false;
         JPanel jPanel1 = new JPanel();
         JPanel parking_box = new JPanel();
-        parkingPanel = new javax.swing.JPanel();
+        parkingPanel = new JPanel();
         JPanel jPanel4 = new JPanel();
         JButton btnStart = new JButton();
         JButton btnStop = new JButton();
         JLabel jLabel1 = new JLabel();
+/*
         JButton btnSettings = new JButton();
-        JLabel jLabel2 = new JLabel();
+*/
+        nbrPlaces = new JLabel();
         JLabel jLabel3 = new JLabel();
-        JLabel jLabel4 = new JLabel();
+        nbrPlacesLibres = new JLabel();
         JLabel jLabel5 = new JLabel();
-        JLabel jLabel6 = new JLabel();
+        nbrPlacesOccupées = new JLabel();
         JLabel jLabel7 = new JLabel();
-        JLabel jLabel8 = new JLabel();
+        nbrVoitures = new JLabel();
         JLabel jLabel9 = new JLabel();
-        JLabel jLabel10 = new JLabel();
+        nbrEnAttenteEntrée = new JLabel();
         JLabel jLabel11 = new JLabel();
-        JLabel jLabel12 = new JLabel();
+        nbrAttenteSortie = new JLabel();
         JLabel jLabel13 = new JLabel();
-        JLabel jLabel14 = new JLabel();
+        parkingSizeLbl = new JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 600));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(800, 600));
         setResizable(false);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(550, 550));
-        jPanel1.setPreferredSize(new java.awt.Dimension(550, 550));
+        jPanel1.setMinimumSize(new Dimension(550, 550));
+        jPanel1.setPreferredSize(new Dimension(550, 550));
 
-        parking_box.setBackground(new java.awt.Color(153, 153, 153));
-        parking_box.setMinimumSize(new java.awt.Dimension(550, 550));
-        parking_box.setPreferredSize(new java.awt.Dimension(550, 550));
+        parking_box.setBackground(new Color(153, 153, 153));
+        parking_box.setMinimumSize(new Dimension(550, 550));
+        parking_box.setPreferredSize(new Dimension(550, 550));
 
-        parkingPanel.setBackground(new java.awt.Color(204, 204, 204));
-        parkingPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        parkingPanel.setMinimumSize(new java.awt.Dimension(0, 0));
-        parkingPanel.setPreferredSize(new java.awt.Dimension(550, 550));
-        parkingPanel.setLayout(new java.awt.GridLayout(parkingSize, parkingSize));
+        parkingPanel.setBackground(new Color(204, 204, 204));
+        parkingPanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        parkingPanel.setMinimumSize(new Dimension(0, 0));
+        parkingPanel.setPreferredSize(new Dimension(550, 550));
+        parkingPanel.setLayout(new GridLayout(parkingSize, parkingSize));
 
-        javax.swing.GroupLayout parking_boxLayout = new javax.swing.GroupLayout(parking_box);
+        GroupLayout parking_boxLayout = new GroupLayout(parking_box);
         parking_box.setLayout(parking_boxLayout);
         parking_boxLayout.setHorizontalGroup(
-                parking_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(parkingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                parking_boxLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(parkingPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         parking_boxLayout.setVerticalGroup(
-                parking_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                parking_boxLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(parking_boxLayout.createSequentialGroup()
-                                .addComponent(parkingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(parkingPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel4.setMinimumSize(new java.awt.Dimension(250, 0));
-        jPanel4.setPreferredSize(new java.awt.Dimension(250, 247));
+        jPanel4.setMinimumSize(new Dimension(250, 0));
+        jPanel4.setPreferredSize(new Dimension(250, 247));
 
         btnStart.setText("demarrer");
         btnStart.setActionCommand("");
@@ -170,192 +251,187 @@ public class MainWindow extends JFrame {
 
         jLabel1.setText("toutes les places :");
 
-        btnSettings.setText("parametres");
+  /*      btnSettings.setText("parametres");
         btnSettings.addActionListener(this::btnSettingsActionPerformed);
+*/
+        nbrPlaces.setText("0");
 
-        jLabel2.setText("0");
+        jLabel3.setText("places libres (N) :");
 
-        jLabel3.setText("places libres :");
+        nbrPlacesLibres.setText("0");
 
-        jLabel4.setText("0");
+        jLabel5.setText("places occupées (N) : ");
 
-        jLabel5.setText("places occupées : ");
-
-        jLabel6.setText("0");
+        nbrPlacesOccupées.setText("0");
 
         jLabel7.setText("nbr voitures:");
 
-        jLabel8.setText("0");
+        nbrVoitures.setText("0");
 
         jLabel9.setText("en attente (E):");
 
-        jLabel10.setText("0");
+        nbrEnAttenteEntrée.setText("0");
 
         jLabel11.setText("en attente (s):");
 
-        jLabel12.setText("0");
+        nbrAttenteSortie.setText("0");
 
         jLabel13.setText("parking size:");
 
-        jLabel14.setText("" + parkingSize);
+        parkingSizeLbl.setText("" + parkingSize + "*" + parkingSize);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnStop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(btnStop, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnStart, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+/*
+                        .addComponent(btnSettings, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+*/
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nbrPlaces, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nbrPlacesOccupées, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel3)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(nbrPlacesLibres, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel7)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel8))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(nbrVoitures))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel10))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(nbrEnAttenteEntrée))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel11)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel12))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(nbrAttenteSortie))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(jLabel13)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel14)))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(parkingSizeLbl)))
                                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(btnStart)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnStop)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSettings)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+/*                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSettings)*/
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel1)
-                                        .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nbrPlaces))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel3)
-                                        .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nbrPlacesLibres))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel5)
-                                        .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nbrPlacesOccupées))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel7)
-                                        .addComponent(jLabel8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nbrVoitures))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel9)
-                                        .addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nbrEnAttenteEntrée))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel11)
-                                        .addComponent(jLabel12))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nbrAttenteSortie))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel13)
-                                        .addComponent(jLabel14))
+                                        .addComponent(parkingSizeLbl))
                                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(parking_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(parking_box, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(parking_box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(parking_box, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 800, GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
+    /**
+     * This method is called from within the constructor to customize the form.
+     */
     private void customizeComponents() {
+        //on instantie un objet parking avec la taille du parking
         parking = new Parking(parkingSize);
         nbrParkCells = 0;
+        //on initialise la liste des voitures
         initVoituresList();
+        //on remplie le parking avec des cases selon un algo
         for (int i = 1; i <= parkingSize; i++) {
+            //si la ligne i est une ligne de parking on ajoute une ligne de parking en i
             if (isParkRow(i))
                 addParkRow(i);
+                //sinn la ligne i est une ligne de route on ajoute une ligne de route en i
             else
                 addRoadRow(i);
         }
+        //on initialise les semaphores
         initSemaphores();
     }
 
+    /**
+     * methode pour ajouter une ligne de route
+     */
     private void addRoadRow(int row) {
         for (int j = 1; j <= parkingSize; j++)
             addRoadCell(row, j);
     }
 
-    private boolean isParkRow(int i) {
-        return i % 2 == 0;
-    }
-
-    private void addParkCell(int row, int column) {
-        JPanel pan = new JPanel();
-        pan.setBackground(Color.gray);
-        parkingPanel.add(pan);
-        parking.addCellToParking(pan, row, column, PARK);
-        nbrParkCells++;
-    }
-
-    private void addHandiParkCell(int row, int column) {
-        JPanel pan = new JPanel();
-        pan.setBackground(Color.pink);
-        parkingPanel.add(pan);
-        parking.addCellToParking(pan, row, column, CellType.HANDI);
-        nbrHandiParkCells++;
-    }
-
-    private void addRoadCell(int row, int column) {
-        JPanel pan = new JPanel();
-        pan.setBackground(Color.decode("#303030"));
-        parkingPanel.add(pan);
-        parking.addCellToParking(pan, row, column, ROAD);
-    }
-
+    /**
+     * methode pour ajouter une ligne de route
+     * selon l'algorithme suivant
+     * si multiple de 6 => route
+     * sinon
+     * si juste avant un multiple de 6 =>park handi
+     * sinon => park
+     */
     private void addParkRow(int row) {
         for (int j = 1; j <= parkingSize; j++) {
             if (j % 6 != 0) {
@@ -372,38 +448,92 @@ public class MainWindow extends JFrame {
         }
     }
 
-
-    private void startTest() {
-        launchVoitures();
+    /**
+     * methode pour tester si i est une ligne de park
+     * (ligne de park = multiple de 2 -pour avoir une alternance entre les lignes-)
+     */
+    private boolean isParkRow(int i) {
+        return i % 2 == 0;
     }
 
-
-    private void stopTest() {
+    /**
+     * methode pour ajouter une case de park
+     * (to the form and to the parking object)
+     */
+    private void addParkCell(int row, int column) {
+        JPanel pan = new JPanel();
+        pan.setBackground(Color.gray);
+        parkingPanel.add(pan);
+        parking.addCellToParking(pan, row, column, PARK);
+        nbrParkCells++;
     }
 
-    public static Semaphore getVideHandi() {
-        return videHandi;
+    /**
+     * methode pour ajouter une case de park pour handi
+     * (to the form and to the parking object)
+     */
+    private void addHandiParkCell(int row, int column) {
+        JPanel pan = new JPanel();
+        pan.setBackground(Color.pink);
+        parkingPanel.add(pan);
+        parking.addCellToParking(pan, row, column, CellType.HANDI);
+        nbrHandiParkCells++;
     }
 
+    /**
+     * methode pour ajouter une case de route
+     * (to the form and to the parking object)
+     */
+    private void addRoadCell(int row, int column) {
+        JPanel pan = new JPanel();
+        pan.setBackground(Color.decode("#303030"));
+        parkingPanel.add(pan);
+        parking.addCellToParking(pan, row, column, ROAD);
+    }
+
+    /**
+     * methode pour initialiser les voitures
+     * selon Settings
+     */
     private void initVoituresList() {
-        int nbrVoituresNrml = 170;
-        int nbrVoituresSpcl = 500;
-        int nbrVoituresAbo = 200;
+        int nbrVoituresNrml = Params.NBR_VOITURES_NRML;
+        int nbrVoituresSpcl = Params.NBR_VOITURES_HANDI;
+        int nbrVoituresAbo = Params.NBR_VOITURES_ABO;
+        setNbrVoitures("" + (nbrVoituresNrml + nbrVoituresSpcl + nbrVoituresAbo));
         voituresThreadsList = new CarsInit(nbrVoituresAbo, nbrVoituresNrml, nbrVoituresSpcl, parking).getSeGarrers();
     }
 
-
+    /**
+     * methode pour lancer touts les threads des voitures
+     */
     private void launchVoitures() {
+        initVoituresList();
         for (SeGarer sg : voituresThreadsList) {
             sg.start();
         }
     }
 
+    /**
+     * methode pour arreter touts les threads des voitures
+     */
+    private synchronized void stopVoitures() {
+        for (SeGarer sg : voituresThreadsList) {
+            if (sg.isAlive())
+                sg.stop();
+        }
+        stopped = true;
+    }
+
+    /**
+     * methode pour initialiser les semaphores selon settings
+     */
     private void initSemaphores() {
         videHandi = new Semaphore(nbrHandiParkCells, "VideHandi");
         videNormal = new Semaphore(nbrParkCells, "VideNormal");
+        setNbrPlaces("" + (nbrHandiParkCells + nbrParkCells));
+        setNbrPlacesLibres("" + (nbrHandiParkCells + nbrParkCells));
+        setNbrPlacesOccupees("" + 0);
         entree = new Semaphore(1, "Entrée");
         sortie = new Semaphore(1, "Sortie");
-        borne = new Semaphore(1, "Borne de paiement");
     }
 }

@@ -105,7 +105,7 @@ public class CarsInit {
         LinkedList<SeGarer> liste = new LinkedList<>();
         int i = 1;
         for (GraphicCar car : listVoitures) {
-            liste.add(new SeGarer(parking, car, "seGarer : " + i));
+            liste.add(new SeGarer(parking, car, "#" + i));
             i++;
         }
         return liste;

@@ -4,6 +4,7 @@ import system.enums.CellState;
 import system.enums.CellType;
 import system.enums.ClientType;
 import ui.GraphicCar;
+import ui.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,6 +81,9 @@ public class Parking {
             cells[x - 1][y - 1].getCellJPanel().setBackground(Color.pink);
     }
 
+    /**
+     * cette methode retourne une liste de cellules(route) d'un chemin d'une case vers une autre
+     */
     private LinkedList<ParkingCell> findPath(ParkingCell targetParkingCell, ParkingCell departParkingCell) {
         LinkedList<ParkingCell> path = new LinkedList<>();
         int columnIndex = departParkingCell.getColumn() - 1;
@@ -158,8 +162,10 @@ public class Parking {
         return j;
     }
 
-
-    private ParkingCell findFreePlace(ClientType clientType) {
+/**
+ * cette methode trouve la place vide la plus proche de l'entrée
+ * */
+private ParkingCell findFreePlace(ClientType clientType) {
         for (int i = 0; i <= size - 1; i++) {
             for (int j = 0; j <= size - 1; j++) {
                 //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
@@ -167,14 +173,15 @@ public class Parking {
                     return cells[i][j];
                 else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
                     return cells[i][j];
-
             }
         }
         // System.out.println("Parking.findFreePlace");
         return null;
     }
 
-
+    /**
+     * cette methode s'occupe de la recherche et du deplacement vers un place vide
+     */
     public void prendrePlace(GraphicCar testCar) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -201,6 +208,9 @@ public class Parking {
         thread.start();
     }
 
+    /**
+     * cette methode s'occupe de la recherche et du deplacement vers la sortie
+     */
     public void sortir(GraphicCar voiture) {
         ParkingCell current = new ParkingCell();
         current.setColumn(voiture.getPosition().getColumn());
@@ -219,21 +229,51 @@ public class Parking {
         });
         thread.start();
     }
-
+    /**
+     * cette methode s'occupe de changer l'etat d'une place
+     * */
     private void liberer(ParkingCell cell) {
         //System.out.println("liberer = [" + cell + "]time : " + System.currentTimeMillis());
         cells[cell.getRow() - 1][cell.getColumn() - 1].setState(CellState.LIBRE);
         cells[cell.getRow() - 1][cell.getColumn() - 1].getCellJPanel().setBackground(Color.green);
         setDefault(cell.getRow(), cell.getColumn());
+        try {
+            switch (cells[cell.getRow() - 1][cell.getColumn() - 1].getType()) {
+                case HANDI:
+                    MainWindow.nbrPlacesHandiocc--;
+                    break;
+                case PARK:
+                    MainWindow.nbrPlacesnormalocc--;
+                    break;
+            }
+        } catch (Exception e) {
+        }
     }
 
-
+    /**
+     * cette methode s'occupe de changer l'etat d'une place
+     * */
     private void occupy(ParkingCell freePlace) {
         //System.out.println("occupy = [" + freePlace + "] time : " + System.currentTimeMillis());
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getCellJPanel().setBackground(Color.red);
-    }
 
+        try {
+            switch (cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getType()) {
+                case HANDI:
+                    MainWindow.nbrPlacesHandiocc++;
+                    break;
+                case PARK:
+                    MainWindow.nbrPlacesnormalocc++;
+                    break;
+            }
+        } catch (Exception e) {
+        }
+        MainWindow.updateView();
+    }
+    /**
+     * cette methode s'occupe du deplacement d'une voiture sur un chemin de cases
+     * */
     private void deplacerVoitureSurPath(ParkingCell departParkingCell, ParkingCell destinationParkingCell, GraphicCar voiture, Runnable context) {
         boolean notFirst = false;
         int previousX = 1;

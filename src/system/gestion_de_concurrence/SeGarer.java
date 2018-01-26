@@ -31,6 +31,7 @@ public class SeGarer extends Thread implements Comparable {
                 e.printStackTrace();
             }
             System.out.println(this.toString() + " is entering!");
+            MainWindow.nbrVoituresEntrees++;
             parking.prendrePlace(this.voiture);
         }
     }

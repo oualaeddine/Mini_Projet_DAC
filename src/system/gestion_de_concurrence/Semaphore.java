@@ -1,5 +1,13 @@
 package system.gestion_de_concurrence;
 
+import ui.MainWindow;
+
+/**
+ * nous avons implementé notre propre semaphore sans etendre la classe
+ * java.util.concurrent.Semaphore
+ * afin d'appliquer les notions qu'on a apris dans le module DAC
+ */
+
 public class Semaphore {
     private int n;
     private String name;
@@ -7,9 +15,6 @@ public class Semaphore {
     public Semaphore(int max, String s) {
         this.n = max;
         this.name = s;
-    }
-
-    public Semaphore() {
     }
 
     public int getN() {
@@ -28,12 +33,17 @@ public class Semaphore {
         this.name = name;
     }
 
+    /**
+     * this method can be replaced with acquire()
+     * si on extend la classe java.util.concurrent.Semaphore
+     */
     synchronized void P(SeGarer sg) {
         n--;
         log(sg, "requiring");
         if (n < 0) {
             try {
                 log(sg, "waiting!");
+                MainWindow.updateMainViewSema(name, n);
                 this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -41,9 +51,14 @@ public class Semaphore {
         }
     }
 
+    /**
+     * this method can be replaced with release()
+     * si on extend la classe java.util.concurrent.Semaphore
+     */
     synchronized void V(SeGarer sg) {
         n++;
         log(sg, "releasing");
+        MainWindow.updateMainViewSema(name, n);
         notify();
     }
 
