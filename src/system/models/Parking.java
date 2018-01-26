@@ -12,6 +12,7 @@ package system.models;
 import system.enums.CellState;
 import system.enums.CellType;
 import system.enums.ClientType;
+import system.enums.Direction;
 import ui.GraphicCar;
 import ui.MainWindow;
 
@@ -177,19 +178,19 @@ public class Parking {
 
     /**
      * cette methode trouve la place vide la plus proche de l'entrée
-     * */
-private ParkingCell findFreePlace(ClientType clientType) {
-    for (int i = 0; i <= size - 1; i++) {
-        for (int j = 0; j <= size - 1; j++) {
-            //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
-            if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP)
-                return cells[i][j];
-            else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
-                return cells[i][j];
+     */
+    private ParkingCell findFreePlace(ClientType clientType) {
+        for (int i = 0; i <= size - 1; i++) {
+            for (int j = 0; j <= size - 1; j++) {
+                //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
+                if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP)
+                    return cells[i][j];
+                else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
+                    return cells[i][j];
+            }
         }
+        return null;
     }
-    return null;
-}
 
     /**
      * cette methode s'occupe de la recherche et du deplacement vers un place vide
@@ -244,7 +245,7 @@ private ParkingCell findFreePlace(ClientType clientType) {
 
     /**
      * cette methode s'occupe de changer l'etat d'une place
-     * */
+     */
     private void liberer(ParkingCell cell) {
         cells[cell.getRow() - 1][cell.getColumn() - 1].setState(CellState.LIBRE);
         cells[cell.getRow() - 1][cell.getColumn() - 1].getCellJPanel().setBackground(Color.green);
@@ -264,7 +265,7 @@ private ParkingCell findFreePlace(ClientType clientType) {
 
     /**
      * cette methode s'occupe de changer l'etat d'une place
-     * */
+     */
     private void occupy(ParkingCell freePlace) {
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].setState(CellState.OCCUPEE);
         cells[freePlace.getRow() - 1][freePlace.getColumn() - 1].getCellJPanel().setBackground(Color.red);
@@ -285,14 +286,17 @@ private ParkingCell findFreePlace(ClientType clientType) {
 
     /**
      * cette methode s'occupe du deplacement d'une voiture sur un chemin de cases
-     * */
+     */
     private void deplacerVoitureSurPath(ParkingCell departParkingCell, ParkingCell destinationParkingCell, GraphicCar voiture, Runnable context) {
         boolean notFirst = false;
         int previousX = 1;
         int previousY = 1;
         for (ParkingCell cell : findPath(destinationParkingCell, departParkingCell)) {
             voiture.setPosition(cell.getPosition());
-            setCar(voiture);
+            if (cell.getPosition().equals(destinationParkingCell.getPosition()))
+                setCarGarree(voiture);
+            else
+                setCar(voiture);
             try {
                 context.wait(100);
             } catch (InterruptedException e) {
@@ -304,5 +308,32 @@ private ParkingCell findFreePlace(ClientType clientType) {
             previousY = cell.getColumn();
             notFirst = true;
         }
+    }
+
+    private void setCarGarree(GraphicCar car) {
+        int x = car.getPosition().getRow();
+        int y = car.getPosition().getColumn();
+        int cellHeight = cells[x - 1][y - 1].getCellJPanel().getHeight();
+        int cellWidth = cells[x - 1][y - 1].getCellJPanel().getHeight();
+        if (x == size && y == size && size % 2 != 0) return;
+        GroupLayout testLayout = new GroupLayout(cells[x - 1][y - 1].getCellJPanel());
+        cells[x - 1][y - 1].getCellJPanel().setLayout(testLayout);
+//        cells[x - 1][y - 1].setState(CellState.OCCUPEE);
+        car.setupIconSize(cellWidth, cellHeight, Direction.NO);
+        JLabel jLabel15 = car.getLabel();
+        testLayout.setHorizontalGroup(
+                testLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15,
+                                GroupLayout.PREFERRED_SIZE,
+                                cellHeight,
+                                javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        testLayout.setVerticalGroup(
+                testLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel15,
+                                GroupLayout.PREFERRED_SIZE,
+                                cellHeight,
+                                GroupLayout.PREFERRED_SIZE)
+        );
     }
 }
