@@ -2,8 +2,12 @@ package system;
 
 public class Params {
     public static final int
-            PARKING_SIZE = 9,
+            PARKING_SIZE = 9,//de preference diviseur de 550 pour des limitations SWING
             NBR_VOITURES_HANDI = 57,
             NBR_VOITURES_NRML = 69,
-            NBR_VOITURES_ABO = 42;
+            NBR_VOITURES_ABO = 42,
+            NBR_SECONDES_PARKING_MIN = 6,
+            NBR_SECONDES_PARKING_MAX = 10;//temps d'attente max d'une voiture dans le parking
+
+
 }

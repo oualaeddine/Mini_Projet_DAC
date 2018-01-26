@@ -7,6 +7,9 @@ import ui.MainWindow;
 
 import java.util.Random;
 
+import static system.Params.NBR_SECONDES_PARKING_MAX;
+import static system.Params.NBR_SECONDES_PARKING_MIN;
+
 public class SeGarer extends Thread implements Comparable {
     private final Parking parking;
 
@@ -46,7 +49,7 @@ public class SeGarer extends Thread implements Comparable {
     private synchronized void assena() {
         try {
 
-            long waiting = new Random().nextInt(5000) + 25000;
+            long waiting = new Random().nextInt(NBR_SECONDES_PARKING_MAX * 1000) + NBR_SECONDES_PARKING_MIN * 1000;
             System.out.println(this.toString() + " is in the park for : " + waiting + " ms!");
             this.wait(waiting);
         } catch (InterruptedException e) {
