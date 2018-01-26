@@ -1,3 +1,13 @@
+/******************************************************************************
+ *                                                                            *
+ *  (C) Copyright ${year} Berrehal Ouala Eddine & Benghezal Ines.             *
+ *  G2 L3 GL.                                                                 *
+ *  Mini projet Module DAC.                                                   *
+ *  Simulation d'un parking                                                   *
+ *  avec gestion des concurrences en utilisant des sémaphores                 *
+ *                                                                            *
+ ******************************************************************************/
+
 package ui;
 
 import system.enums.ClientType;
@@ -52,6 +62,7 @@ public class GraphicCar extends MovingCar {
                 break;
         }
     }
+
     public void setupIconSize(int width, int height) {
         label = new JLabel();
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

@@ -1,3 +1,13 @@
+/******************************************************************************
+ *                                                                            *
+ *  (C) Copyright ${year} Berrehal Ouala Eddine & Benghezal Ines.             *
+ *  G2 L3 GL.                                                                 *
+ *  Mini projet Module DAC.                                                   *
+ *  Simulation d'un parking                                                   *
+ *  avec gestion des concurrences en utilisant des sémaphores                 *
+ *                                                                            *
+ ******************************************************************************/
+
 package system.models;
 
 import system.enums.CellState;
@@ -158,21 +168,21 @@ public class Parking {
         return j;
     }
 
-/**
- * cette methode trouve la place vide la plus proche de l'entrée
- * */
+    /**
+     * cette methode trouve la place vide la plus proche de l'entrée
+     * */
 private ParkingCell findFreePlace(ClientType clientType) {
-        for (int i = 0; i <= size - 1; i++) {
-            for (int j = 0; j <= size - 1; j++) {
-                //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
-                if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP)
-                    return cells[i][j];
-                else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
-                    return cells[i][j];
-            }
+    for (int i = 0; i <= size - 1; i++) {
+        for (int j = 0; j <= size - 1; j++) {
+            //  System.out.println("cells[" + i + "][" + j + "]= " + cells[i][j].toString());
+            if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP)
+                return cells[i][j];
+            else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
+                return cells[i][j];
         }
-        return null;
     }
+    return null;
+}
 
     /**
      * cette methode s'occupe de la recherche et du deplacement vers un place vide
@@ -224,6 +234,7 @@ private ParkingCell findFreePlace(ClientType clientType) {
         });
         thread.start();
     }
+
     /**
      * cette methode s'occupe de changer l'etat d'une place
      * */
@@ -264,6 +275,7 @@ private ParkingCell findFreePlace(ClientType clientType) {
         }
         MainWindow.updateView();
     }
+
     /**
      * cette methode s'occupe du deplacement d'une voiture sur un chemin de cases
      * */

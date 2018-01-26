@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <eclipse-userlibraries>
+  <library name="MigLayout">
+    <archive path="D:/Cloud/Univ_Shared/workspace/DAC/Mini_Projet_DAC/lib/miglayout-swing.jar" />
+    <archive path="D:/Cloud/Univ_Shared/workspace/DAC/Mini_Projet_DAC/lib/miglayout-core.jar" />
+  </library>
+  <library name="darcula">
+    <archive path="D:/Cloud/Univ_Shared/workspace/DAC/Mini_Projet_DAC/lib/darcula.jar" />
+  </library>
   <library name="com.mysql.jdbc_5.1.5">
     <archive path="D:/Cloud/JavaProjects/IdeaProjects/Univ/TQL/mysql-connector-java-2.0.14-bin.jar" />
   </library>
