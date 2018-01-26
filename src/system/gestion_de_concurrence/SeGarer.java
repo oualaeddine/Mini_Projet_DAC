@@ -20,7 +20,7 @@ import java.util.Random;
 import static system.Params.NBR_SECONDES_PARKING_MAX;
 import static system.Params.NBR_SECONDES_PARKING_MIN;
 
-public class SeGarer extends Thread implements Comparable {
+public class SeGarer extends Thread {
     private final Parking parking;
 
     private GraphicCar getVoiture() {
@@ -90,26 +90,6 @@ public class SeGarer extends Thread implements Comparable {
             MainWindow.getVideHandi().V(this);
         else
             MainWindow.getVideNormal().V(this);
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        SeGarer other = (SeGarer) o;
-        if (this.voiture.getClient().getType() == other.getVoiture().getClient().getType())
-            return 0;
-        if (this.voiture.getClient().getType() == ClientType.HANDICAP &&
-                other.getVoiture().getClient().getType() != ClientType.HANDICAP)
-            return -1;
-        if (this.voiture.getClient().getType() != ClientType.HANDICAP &&
-                other.getVoiture().getClient().getType() == ClientType.HANDICAP)
-            return 1;
-        if (this.voiture.getClient().getType() == ClientType.ABONNE &&
-                other.getVoiture().getClient().getType() == ClientType.NORMAL)
-            return -1;
-        if (this.voiture.getClient().getType() == ClientType.NORMAL &&
-                other.getVoiture().getClient().getType() != ClientType.NORMAL)
-            return 1;
-        else return 0;
     }
 
     @Override

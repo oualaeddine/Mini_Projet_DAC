@@ -37,6 +37,9 @@ public class Parking {
         }
     }
 
+    /**
+     * cette methode ajoute un objet cell au parking
+     */
     public void addCellToParking(JPanel pan, int row, int column, CellType type) {
         ParkingCell parkingCell = new ParkingCell();
         parkingCell.setCellJPanel(pan);
@@ -46,7 +49,9 @@ public class Parking {
         cells[row - 1][column - 1] = parkingCell;
     }
 
-
+    /**
+     * cette methode occupe une case visuellement par une voiture
+     */
     private void setCar(GraphicCar car) {
         int x = car.getPosition().getRow();
         int y = car.getPosition().getColumn();
@@ -75,6 +80,9 @@ public class Parking {
         );
     }
 
+    /**
+     * cette methode remet la case a son etat visuel initial avant d'etre occupée par une voiture
+     */
     private void setDefault(int x, int y) {
         cells[x - 1][y - 1].getCellJPanel().removeAll();
         cells[x - 1][y - 1].getCellJPanel().repaint();
