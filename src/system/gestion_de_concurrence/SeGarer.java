@@ -44,7 +44,7 @@ public class SeGarer extends Thread {
      * Cette méthode demande à la voiture (à laquelle on a donné le droit de so garer)
      * de trouver la place libre la plus proche et d'aller de placer dessus.
      * Cette méthode n'est appélée que lorsque l'on est sur qu'il y a au moins une place vide*/
-    private void trouver() {
+    private void seGare() {
         synchronized (this) {
             try {
                 this.wait(700); /**Le but de ce wait est de ralentir la procédure pour qu'elle ne soit
@@ -96,7 +96,7 @@ public class SeGarer extends Thread {
         /**Demander le 2ème accès au parking en vérifiant que l'entrée est libre*/
         MainWindow.getEntree().P(this);
         //Trouver une place après avoir reçu le signal qu'une place est libre et se garer
-        trouver();
+        seGare();
 
         /**Envoyer un signal que l'entrée est désormais libre*/
         MainWindow.getEntree().V(this);

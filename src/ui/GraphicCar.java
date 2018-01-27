@@ -17,7 +17,8 @@ import system.utils.ImageUtils;
 import javax.swing.*;
 import java.awt.*;
 
-
+/**Voiture pouvant se mouvoir et possédant une icone propre à son type
+ * C'est aussi ici que les priorités des voitures sont attribués selon leurs types*/
 public class GraphicCar extends MovingCar {
     @SuppressWarnings("FieldCanBeLocal")
     private final String[] vehicules = {

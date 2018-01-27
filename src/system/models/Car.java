@@ -8,7 +8,8 @@
  *                                                                            *
  ******************************************************************************/
 package system.models;
-
+/**
+ * Classe de l'objet voiture de base*/
 @SuppressWarnings("unused")
 public class Car {
     private String matricule;

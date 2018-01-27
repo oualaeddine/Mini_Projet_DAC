@@ -9,6 +9,8 @@
  ******************************************************************************/
 package system;
 
+/**Cette classe est destinée à l'initialisation des paramètres de base
+ * de l'application*/
 public class Params {
     public static final int
             PARKING_SIZE = 9,//de preference diviseur de 550 pour des limitations SWING

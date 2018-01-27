@@ -10,7 +10,7 @@
 package system.models;
 
 import system.enums.Direction;
-
+/**Voiture pouvant se mouvoir*/
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class MovingCar extends Car {
     private Position position;
