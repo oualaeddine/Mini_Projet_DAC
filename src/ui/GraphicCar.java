@@ -18,7 +18,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**Voiture pouvant se mouvoir et possédant une icone propre à son type
- * C'est aussi ici que les priorités des voitures sont attribués selon leurs types*/
+ * C'est aussi ici que les priorités des voitures sont attribués selon leurs types
+ * La priorité sera prise en compte lors de la création du thread SeGarer */
 public class GraphicCar extends MovingCar {
     @SuppressWarnings("FieldCanBeLocal")
     private final String[] vehicules = {

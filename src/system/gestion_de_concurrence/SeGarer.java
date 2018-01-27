@@ -38,7 +38,7 @@ public class SeGarer extends Thread {
         this.parking = parking;
         this.voiture = voiture;
         setName(s);
-        setPriority(voiture.getPriorityInt());
+        setPriority(voiture.getPriorityInt()); //La priorité est attribuée dans la classe GraphicCar
     }
     /**
      * Cette méthode demande à la voiture (à laquelle on a donné le droit de so garer)
