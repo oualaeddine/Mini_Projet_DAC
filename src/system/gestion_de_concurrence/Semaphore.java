@@ -13,9 +13,9 @@ package system.gestion_de_concurrence;
 import ui.MainWindow;
 
 /**
- * nous avons implementé notre propre semaphore sans etendre la classe
+ * Nous avons implementé notre propre semaphore sans étendre la classe
  * java.util.concurrent.Semaphore
- * afin d'appliquer les notions qu'on a apris dans le module DAC
+ * afin d'appliquer les notions qu'on a appris dans le module DAC
  */
 
 @SuppressWarnings("ALL")
@@ -45,12 +45,12 @@ public class Semaphore {
     }
 
     /**
-     * this method can be replaced with acquire()
-     * si on extend la classe java.util.concurrent.Semaphore
+     * cette méthode peut être remplacée par la méthode acquire()
+     * si on étend la classe java.util.concurrent.Semaphore
      */
     synchronized void P(SeGarer sg) {
         n--;
-        log(sg, "requiring");
+        log(sg, "aquiring");
         if (n < 0) {
             try {
                 log(sg, "waiting!");
@@ -63,8 +63,8 @@ public class Semaphore {
     }
 
     /**
-     * this method can be replaced with release()
-     * si on extend la classe java.util.concurrent.Semaphore
+     * Cette méthode peut être remplacée par la méthode release()
+     * si on étend la classe java.util.concurrent.Semaphore
      */
     synchronized void V(SeGarer sg) {
         n++;

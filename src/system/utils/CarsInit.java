@@ -16,7 +16,7 @@ import ui.GraphicCar;
 
 import java.util.LinkedList;
 import java.util.Random;
-
+/**Cette classe est destinée à l'initialisation des listes de voitures*/
 public class CarsInit {
     private final Parking parking;
     private int nbrVoituresAbo = 20, nbrVoituresSpcl = 50, nbrVoituresNrml = 17;
