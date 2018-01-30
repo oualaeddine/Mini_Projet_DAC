@@ -441,8 +441,10 @@ public class MainWindow extends JFrame {
         int nbrVoituresNrml = Params.NBR_VOITURES_NRML;
         int nbrVoituresSpcl = Params.NBR_VOITURES_HANDI;
         int nbrVoituresAbo = Params.NBR_VOITURES_ABO;
-        setNbrVoitures("" + (nbrVoituresNrml + nbrVoituresSpcl + nbrVoituresAbo));
-        voituresThreadsList = new CarsInit(nbrVoituresAbo, nbrVoituresNrml, nbrVoituresSpcl, parking).getSeGarrers();
+        int nbrVoituresSpclAbo = Params.NBR_VOITURES_ABO_HANDI;
+
+        setNbrVoitures("" + (nbrVoituresNrml + nbrVoituresSpcl + nbrVoituresAbo + nbrVoituresSpclAbo));
+        voituresThreadsList = new CarsInit(nbrVoituresAbo, nbrVoituresNrml, nbrVoituresSpcl, nbrVoituresSpclAbo, parking).getSeGarrers();
     }
 
     /**

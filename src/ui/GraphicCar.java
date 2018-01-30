@@ -55,7 +55,11 @@ public class GraphicCar extends MovingCar {
                 image = vehicules[5];
                 setupIconSize(1, 1);
                 break;
-            case ABONNE:
+            case NORMALABONNE:
+                image = vehicules[4];
+                setupIconSize(1, 1);
+                break;
+            case HANDICAPABONNE:
                 image = vehicules[13];
                 setupIconSize(1, 1);
                 break;
@@ -96,10 +100,12 @@ public class GraphicCar extends MovingCar {
         switch (getClient().getType()) {
             case NORMAL:
                 return Thread.MIN_PRIORITY;
+            case NORMALABONNE:
+                return 2;
             case HANDICAP:
+                return 3;
+            case HANDICAPABONNE:
                 return Thread.MAX_PRIORITY;
-            case ABONNE:
-                return Thread.NORM_PRIORITY;
         }
         return 0;
     }

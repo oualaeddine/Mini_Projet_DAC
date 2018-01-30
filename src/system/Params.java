@@ -15,6 +15,7 @@ public class Params {
             NBR_VOITURES_HANDI = 57,
             NBR_VOITURES_NRML = 69,
             NBR_VOITURES_ABO = 42,
+            NBR_VOITURES_ABO_HANDI = 20,
             NBR_SECONDES_PARKING_MIN = 25,//temps d'attente min d'une voiture dans le parking
             NBR_SECONDES_PARKING_MAX = 10;//temps d'attente max d'une voiture dans le parking
 }

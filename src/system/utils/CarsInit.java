@@ -27,11 +27,13 @@ public class CarsInit {
     private final LinkedList<GraphicCar> listVoituresSpcl;
     private final LinkedList<GraphicCar> listVoituresAbo;
     private final LinkedList<GraphicCar> listVoituresNormal;
+    private int nbrVoituresAboHndi;
 
-    public CarsInit(int nbrVoituresAbo, int nbrVoituresNrml, int nbrVoituresSpcl, Parking parking) {
+    public CarsInit(int nbrVoituresAbo, int nbrVoituresNrml, int nbrVoituresSpcl, int nbrVoituresSpclAbo, Parking parking) {
         listVoitures = new LinkedList<>();
         this.nbrVoituresAbo = nbrVoituresAbo;
         this.nbrVoituresSpcl = nbrVoituresSpcl;
+        this.nbrVoituresAboHndi = nbrVoituresSpclAbo;
         this.nbrVoituresNrml = nbrVoituresNrml;
         nbrVoitures = nbrVoituresAbo + nbrVoituresNrml + nbrVoituresSpcl;
         this.parking = parking;
@@ -58,7 +60,15 @@ public class CarsInit {
 
     private void initAboClientCar() {
         for (int i = 0; i < nbrVoituresAbo; i++) {
-            GraphicCar car = new GraphicCar(ClientType.ABONNE);
+            GraphicCar car = new GraphicCar(ClientType.NORMALABONNE);
+            car.setMatricule("Abo#" + i);
+            listVoituresAbo.add(car);
+        }
+    }
+
+    private void initHandiAboClientCar() {
+        for (int i = 0; i < nbrVoituresAboHndi; i++) {
+            GraphicCar car = new GraphicCar(ClientType.HANDICAPABONNE);
             car.setMatricule("Abo#" + i);
             listVoituresAbo.add(car);
         }
