@@ -86,7 +86,8 @@ public class SeGarer extends Thread {
      * Le choix des sémaphores appelés s'effectue selon le type des voiture s*/
     @Override
     public void run() {
-        if (this.getVoiture().getClient().getType() != ClientType.HANDICAP)
+        if (this.getVoiture().getClient().getType() != ClientType.HANDICAP
+                && this.getVoiture().getClient().getType() != ClientType.HANDICAPABONNE)
             /**Selon le type de client, demander le 1er accès au parking en vérifiant s'il y a
              * une place libre*/
             MainWindow.getVideNormal().P(this);
@@ -110,7 +111,8 @@ public class SeGarer extends Thread {
         /**Envoyer un signal pour dire que la sortie est désormais libre*/
         MainWindow.getSortie().V(this);
 
-        if (this.getVoiture().getClient().getType() == ClientType.HANDICAP)
+        if (this.getVoiture().getClient().getType() == ClientType.HANDICAP
+                || this.getVoiture().getClient().getType() ==ClientType.HANDICAPABONNE)
             /**Selon le type de client, signaler qu'une place s'est libérée*/
             MainWindow.getVideHandi().V(this);
         else

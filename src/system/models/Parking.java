@@ -180,14 +180,16 @@ public class Parking {
      * cette methode trouve la place vide la plus proche de l'entrée
      */
 
-    //todo update for handiabo
+
     private ParkingCell findFreePlace(ClientType clientType) {
         for (int i = 0; i <= size - 1; i++) {
             for (int j = 0; j <= size - 1; j++) {
-                if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP)
+                if (cells[i][j].getType() == CellType.PARK && cells[i][j].getState() != CellState.OCCUPEE && clientType != ClientType.HANDICAP && clientType != ClientType.HANDICAPABONNE)
                     return cells[i][j];
-                else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType == ClientType.HANDICAP)
-                    return cells[i][j];
+                else if (cells[i][j].getType() == CellType.HANDI && cells[i][j].getState() != CellState.OCCUPEE && clientType !=ClientType.NORMAL && clientType!=ClientType.NORMALABONNE){
+//                    if (clientType == ClientType.HANDICAP || clientType==ClientType.HANDICAPABONNE)
+                        return cells[i][j];
+                }
             }
         }
         return null;
